@@ -1,431 +1,128 @@
-# Cashback Affiliate System - Architecture
+# Cashback Affiliate System — Architecture
 
-A cashback affiliate system is basically a platform that:
-1. sends a user to a merchant through an affiliate link,
-2. tracks that click,
-3. receives a sale/conversion event later,
-4. calculates the user’s cashback,
-5. keeps that money in a controlled ledger,
-6. pays the user when eligible.
-
-Think of it as a mix of:
-* affiliate tracking
-* event ingestion
-* financial ledger/accounting
-* user wallet + payout system
+The platform (1) sends users to merchants via affiliate links, (2) tracks clicks, (3) receives conversion/sale events, (4) calculates cashback, (5) records movements in a ledger, and (6) pays out when eligible. It combines affiliate tracking, event ingestion, a financial ledger, and a wallet/payout system.
 
 ---
 
 ## 1. Core Flow
-At a high level, the flow looks like this:
+
 ```
-User
-  ↓
-Cashback Platform
-  ↓
-Affiliate Click Tracking
-  ↓
-Affiliate Network / Merchant
-  ↓
-Conversion / Sale Event returns later
-  ↓
-Transaction Processing Engine
-  ↓
-Cashback Ledger / Wallet
-  ↓
-Payout System
+User → Cashback Platform → Affiliate Click Tracking → Affiliate Network / Merchant
+  → Conversion / Sale Event → Transaction Processing → Cashback Ledger / Wallet → Payout
 ```
-A more practical version:
+
+Concretely:
+
 ```
-[Frontend App]
-   ↓
-[API / Backend]
-   ├── Click Tracking Service
-   ├── Offer / Merchant Service
-   ├── Transaction Ingestion Service
+[Frontend App] → [API / Backend]
+   ├── Click Tracking
+   ├── Offer / Merchant
+   ├── Transaction Ingestion
    ├── Cashback Engine
-   ├── Ledger / Wallet Service
-   ├── Payout Service
-   ├── Admin / Reconciliation Service
-   └── Notification Service
+   ├── Ledger / Wallet
+   ├── Payout
+   ├── Admin / Reconciliation
+   └── Notifications
 ```
 
 ---
 
-## 2. Main Architectural Components
-Here’s the architecture I’d recommend for a serious version of this system.
+## 2. Components
 
-### A. Frontend / Client App
-This is where users:
-* browse merchants/offers
-* click “Shop Now”
-* view pending cashback
-* see confirmed cashback
-* request payouts
-* view transaction history
+### A. Frontend
 
-### B. API / Application Backend
-This is the main entry point.
+Browse merchants/offers, “Shop Now” clicks, pending/confirmed cashback, payout requests, transaction history.
 
-Responsibilities:
-* authenticate users
-* serve offers/merchants
-* create trackable outbound clicks
-* expose transaction history
-* expose wallet balance
-* handle payout requests
-* power admin tools
+### B. API / Backend
 
-### C. Click Tracking Service
-This is the heart of attribution.
+Entry point: auth, offers/merchants, trackable clicks, transaction history, wallet balance, payout requests, admin tooling.
 
-When a user clicks an offer:
-* user clicks merchant offer in your platform
-* your system generates a unique click ID
-* you store the click
-* you redirect the user to the affiliate network or merchant URL
-* later, when the network sends a conversion, you try to match it back to that click
+### C. Click Tracking
 
-Typical stored click data:
-* click_id
-* user_id
-* merchant_id
-* offer_id
-* affiliate_network_id
-* outbound URL
-* timestamp
-* IP / user agent
-* device/session metadata
-* optional subid/tracking parameters
+Attribution: on offer click the system creates a unique click ID, stores it, redirects to the network/merchant URL; conversions are matched back to that click.
 
-### D. Affiliate Network / Merchant Integration Layer
-Your platform usually does not track the actual final sale itself. Instead, it relies on:
-* affiliate networks
-* merchant APIs
-* postback callbacks
-* batch reports
-* webhook events
+Stored: `click_id`, `user_id`, `merchant_id`, `offer_id`, `affiliate_network_id`, outbound URL, timestamp, IP/user agent, device/session metadata, optional subid/tracking params.
 
-Examples of what they may send later:
-* order identifier
-* click reference / subid
-* sale amount
-* commission amount
-* event status
-* event time
-* reversal/cancellation update
-This integration layer must normalize different external formats into your internal model.
+### D. Affiliate Network / Merchant Integration
 
-So instead of letting every network shape your system, you do:
+The platform does not track the final sale; it relies on networks, merchant APIs, postbacks, batch reports, webhooks. This layer normalizes external payloads into an internal conversion event:
+
 ```
 External payload → Normalizer → Internal conversion event
 ```
-That keeps the rest of your system clean.
 
-### E. Transaction Ingestion Service
-This service receives incoming events from external sources.
+Typical payload fields: order id, click ref/subid, sale amount, commission, status, time, reversal/cancellation.
 
-Examples:
-* webhook from affiliate network
-* API polling result
-* CSV import from network report
-* manual admin reconciliation import
+### E. Transaction Ingestion
 
-Responsibilities:
-* receive raw event
-* store raw payload for audit
-* validate signature/auth if needed
-* normalize event
-* detect duplicates
-* process idempotently
-* emit internal domain event
-This service should never just “insert and hope.” It must be defensive.
-
-This is where you handle problems like:
-* duplicate webhook retries
-* partial data
-* status changes from pending → confirmed
-* reversed commissions
-* out-of-order events
+Accepts events from webhooks, API polling, CSV imports, manual admin import. For each event: store raw payload (audit), validate signature if required, normalize, detect duplicates, process idempotently, emit domain event. Must handle duplicate retries, partial data, pending→confirmed, reversals, out-of-order events.
 
 ### F. Cashback / Rewards Engine
-This decides how much cashback the user gets.
 
-Example logic:
-* merchant commission received = $10
-* your business keeps $4
-* user gets $6 cashback
-Or:
-* merchant has 8% cashback rate
-* order amount = $100
-* cashback = $8
-
-This engine should support rules like:
-* flat cashback
-* percentage cashback
-* promotional boosted cashback
-* category-specific rules
-* capped cashback
-* user-tier bonuses
-* temporary campaigns
+Computes user cashback from commission (e.g. keep $4 of $10, user gets $6) or from offer rules (e.g. 8% on $100 → $8). Supports flat/percentage cashback, promos, category rules, caps, tiers, campaigns.
 
 ### G. Transaction State Machine
-Cashback transactions are not instantly final.
 
-Typical states:
-* `tracked`
-* `pending`
-* `confirmed`
-* `reversed`
-* `paid`
+States: `tracked` → `pending` → `confirmed` → `reversed` or `paid`. Lifecycle: click → conversion → pending cashback → network confirmation → confirmed → user requests payout → paid. Reversals move pending → reversed. Invalid: paying before confirmation, reversing after paid without adjustment, double confirmation. Model as a state machine and enforce transitions.
 
-Example lifecycle:
-```
-click created
-  ↓
-conversion received
-  ↓
-pending cashback created
-  ↓
-merchant/network confirms it
-  ↓
-confirmed cashback
-  ↓
-user requests payout
-  ↓
-paid
-```
+### H. Ledger / Wallet
 
-Possible failure path:
-```
-pending
-  ↓
-reversed
-```
+Avoid a single mutable balance column. Use a ledger: every movement is an immutable row; balance is derived. Entries: e.g. cashback_pending +100, cashback_confirmed +100, cashback_reversed -100, payout_requested -80. Alternatively use buckets: pending, available, reserved, paid. Enables audit, reconciliation, and correct balances.
 
-You need a controlled transition model so you don’t end up with bad states like:
-* paid before confirmed
-* reversed after already paid without adjustment
-* duplicate confirmation creating extra money
+### I. Payout
 
-This is why treating this as a state machine is very important.
+Check eligibility and available balance, create request, reserve funds, send to provider (or manual), mark completed/failed, write ledger, notify user. Methods: bank, PayPal, GCash, manual, gift cards.
 
-### H. Ledger / Wallet Service
-This is one of the most important design decisions.
-Do not store wallet balance as just one mutable column and keep incrementing/decrementing it blindly.
+### J. Admin / Reconciliation
 
-Better approach:
-* maintain a ledger table
-* every money movement creates an immutable entry
-* balance is derived from ledger entries
+Review clicks and conversions, inspect raw webhooks, retry failed ingestion, reconcile missing data, handle disputes, reverse transactions, approve payouts, monitor performance, fraud checks.
 
-Example ledger entries:
-* cashback_pending +100
-* cashback_confirmed +100
-* cashback_reversed -100
-* payout_requested -80
-* payout_completed 0 or status update depending on design
+### K. Notifications
 
-Or a cleaner model:
-* pending ledger bucket
-* available ledger bucket
-* reserved ledger bucket
-* paid ledger bucket
-
-This gives you:
-* auditability
-* reconciliation
-* financial correctness
-* easier debugging
-
-### I. Payout Service
-Once cashback is confirmed and eligible, the user can withdraw.
-
-Responsibilities:
-* validate payout eligibility
-* ensure enough withdrawable balance
-* create payout request
-* reserve funds
-* send to payout provider or manual process
-* mark payout as completed or failed
-* write ledger movements
-* notify user
-
-Payout methods may include:
-* bank transfer
-* PayPal
-* GCash
-* manual payout
-* gift cards
-
-### J. Admin / Operations / Reconciliation
-You will need an internal admin panel.
-
-Admins need to:
-* review clicks
-* review conversions
-* inspect raw webhook payloads
-* retry failed ingestion
-* manually reconcile missing transactions
-* handle disputes
-* reverse transactions
-* approve payouts
-* view merchant/network performance
-* investigate fraud
-
-### K. Notifications / Communication
-Users should know what’s happening.
-
-Typical notifications:
-* cashback tracked
-* cashback confirmed
-* cashback reversed
-* payout requested
-* payout completed
-
-Could be:
-* email
-* push
-* in-app notifications
+Notify on: tracked, confirmed, reversed, payout requested, payout completed. Channels: email, push, in-app.
 
 ---
 
-## 3. Recommended High-Level Architecture
+## 3. High-Level Layout
 
-For a clean system, I’d split it like this:
 ```
-Frontend / Mobile
-   ↓
-API Layer
-   ↓
-Application Services / Use Cases
-   ↓
-Domain Modules
-   ├── Offers
-   ├── Clicks
-   ├── Tracking
-   ├── Transactions
-   ├── Cashback
-   ├── Ledger
-   ├── Payouts
-   └── Admin/Reconciliation
-   ↓
-Infrastructure
-   ├── Database
-   ├── Queue
-   ├── Cache
-   ├── Webhook Handlers
-   ├── Affiliate Network Clients
-   ├── Notification Providers
-   └── Payout Providers
+Frontend / Mobile → API → Application Services / Use Cases → Domain
+   (Offers, Clicks, Tracking, Transactions, Cashback, Ledger, Payouts, Admin)
+   → Infrastructure (DB, Queue, Cache, Webhooks, Network Clients, Notifications, Payout Providers)
 ```
 
 ---
 
-## 4. Suggested Domain Breakdown
-For you, I’d probably structure it around these bounded areas:
+## 4. Domain Breakdown
 
-### Offers / Merchants
-Handles:
-* merchants
-* stores
-* offer listings
-* cashback rules
-* affiliate destinations
-
-### Click Tracking
-Handles:
-* click generation
-* redirect tracking
-* attribution identifiers
-* session metadata
-
-### Conversion / Transactions
-Handles:
-* incoming conversion events
-* status transitions
-* raw event storage
-* duplicate detection
-
-### Cashback
-Handles:
-* reward calculation
-* cashback eligibility
-* promotional rules
-
-### Ledger / Wallet
-Handles:
-* money movements
-* balance views
-* reconciliation basis
-
-### Payouts
-Handles:
-* withdrawal requests
-* payout processing
-* provider integration
-
-### Admin / Risk / Reconciliation
-Handles:
-* manual review
-* fraud checks
-* support investigation
-* exception handling
+| Area | Scope |
+|------|--------|
+| Offers / Merchants | Merchants, stores, offers, cashback rules, affiliate destinations |
+| Click Tracking | Click creation, redirects, attribution IDs, session metadata |
+| Conversion / Transactions | Incoming events, status transitions, raw storage, duplicate detection |
+| Cashback | Reward calculation, eligibility, promos |
+| Ledger / Wallet | Movements, balance derivation, reconciliation |
+| Payouts | Withdrawal requests, processing, provider integration |
+| Admin / Risk | Review, fraud, support, exceptions |
 
 ---
 
-## 5. Synchronous vs Asynchronous Parts
-A mistake many people make is trying to do everything in one request.
+## 5. Sync vs Async
 
-Better split:
-### Synchronous
-Things that should happen immediately:
-* browse offers
-* create click record
-* redirect user to merchant
-* show wallet/transactions
-* create payout request
+**Synchronous:** browse offers, create click, redirect, show wallet/transactions, create payout request.
 
-### Asynchronous
-Things better handled in queue/jobs:
-* webhook processing
-* conversion normalization
-* reward calculation after ingestion
-* reconciliation
-* sending emails/notifications
-* payout execution
-* retry failed external calls
+**Asynchronous (queue/jobs):** webhook handling, normalization, reward calculation after ingestion, reconciliation, emails/notifications, payout execution, retries.
 
 ---
 
-## 6. Event-Driven Mindset
-This system benefits a lot from internal events.
+## 6. Event-Driven Design
 
-Example:
-```
-ClickCreated
-ConversionReceived
-ConversionNormalized
-TransactionTracked
-TransactionConfirmed
-TransactionReversed
-CashbackCalculated
-LedgerEntryCreated
-PayoutRequested
-PayoutCompleted
-```
-
-Why this helps:
-* reduces tight coupling
-* easier to test
-* easier to add notifications later
-* easier to build audit trail
-* easier to support retries
+Internal events (e.g. ClickCreated, ConversionReceived, TransactionTracked, TransactionConfirmed, TransactionReversed, CashbackCalculated, LedgerEntryCreated, PayoutRequested, PayoutCompleted) reduce coupling, simplify tests, and support audit and retries.
 
 ---
 
-## 7. Simple Architecture Diagram
-Here’s a clean conceptual version:
+## 7. Conceptual Diagram
+
 ```
                 ┌─────────────────┐
                 │   Frontend App  │
