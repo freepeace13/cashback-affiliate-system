@@ -1,183 +1,55 @@
-# Hexagonal Module Structure (Domain + Application)
+# Module Structure (Flat Layout)
 
 ## Top-Level
 
 ```text
 src/
-├── Offers/       Application/ + Domain/
-├── Tracking/     Application/ + Domain/
-├── Transactions/ Application/ + Domain/
-├── Ledger/       Application/ + Domain/
-├── Payouts/      Application/ + Domain/
-└── Shared/       Application/ + Domain/
+├── Offers/        Offers, merchants, cashback rates
+├── Tracking/      Clicks and tracking URLs
+├── Transactions/  Conversions, confirmations, reversals
+├── Ledger/        Ledger entries, balances, posting
+├── Payouts/       Payout requests and lifecycle
+└── Shared/        Shared value objects and contracts
 ```
 
 ---
 
 ## Per-Module Layout
 
-Same layout under each module:
+Modules use a flat layout. Folders appear only when the module needs them:
 
 ```text
 ModuleName/
-├── Application/
-│   ├── Actions/
-│   ├── Queries/
-│   ├── QueryHandlers/
-│   ├── DTOs/
-│   └── Exceptions/
-└── Domain/
-    ├── Entities/
-    ├── ValueObjects/
-    ├── Events/
-    ├── Services/
-    ├── Repositories/
-    ├── Specifications/
-    ├── Exceptions/
-    └── Enums/
+├── Actions/       State-changing use cases (optional)
+├── Contracts/     Repository and service interfaces
+├── DTOs/          Data transfer objects
+├── Entities/      Domain entities
+├── Enums/         Enumerations (optional)
+├── Events/        Domain events (optional)
+├── Exceptions/    Module-specific exceptions (optional)
+├── Factories/     Entity/builders (optional)
+├── Queries/       Query objects and handlers
+├── Services/      Domain or application services (optional)
+└── ValueObjects/  Immutable value types
 ```
 
 ---
 
-## Application Layer
-
-Orchestration and use cases; coordinates flows using domain objects.
+## Folder Roles
 
 | Folder | Role |
 |--------|------|
-| **Actions** | State-changing use cases (e.g. CreateClick, RecordConversion, ConfirmTransaction, RequestPayout). Use when the operation is transactional or touches multiple domain objects. |
-| **Queries** | Read request objects (GetOfferDetails, GetUserTransactions, GetWalletBalance). |
-| **QueryHandlers** | Execute queries; return DTOs/read models, not entities. |
-| **DTOs** | Data transfer for action I/O and query results; keep layer boundaries stable. |
-| **Exceptions** | Application-flow exceptions (CannotRequestPayout, InvalidTransactionTransition). |
-
-Optional names: **UseCases** instead of Actions (pick one). **Services** for app-level coordinators (e.g. CashbackCalculationCoordinator); keep core rules in domain. **Mappers** for entity ↔ DTO ↔ read model.
-
----
-
-## Domain Layer
-
-Business rules and concepts; framework-agnostic.
-
-| Folder | Role |
-|--------|------|
-| **Entities** | Identity + state + invariants + behavior (Offer, Click, Transaction, LedgerEntry, PayoutRequest). |
-| **ValueObjects** | Immutable values (Money, CashbackRate, ClickReference, TransactionStatus, PayoutMethod). |
-| **Events** | Domain events (ClickCreated, TransactionTracked, TransactionConfirmed, TransactionReversed, PayoutRequested). |
-| **Services** | Rules that span entities (CashbackCalculator, TransactionTransitionGuard, LedgerPostingService). |
-| **Repositories** | Interfaces only; implementations live in infrastructure. |
-| **Specifications** | Reusable rule checks (PayoutEligibilitySpecification, TransactionConfirmableSpecification, OfferActiveSpecification). |
-| **Exceptions** | Domain exceptions (InactiveOffer, TransactionAlreadyConfirmed, InsufficientAvailableBalance). |
-| **Enums** | OfferStatus, TransactionStatus, LedgerBucket, LedgerDirection, PayoutStatus. |
-
-**Aggregates**: optional folder if you want explicit aggregate roots (TransactionAggregate, WalletAggregate); omit if entities already act as roots.
-
----
-
-## Example: Offers
-
-```text
-Offers/
-├── Application/
-│   ├── Queries/           GetOfferDetailsQuery, ListActiveOffersQuery
-│   ├── QueryHandlers/     GetOfferDetailsHandler, ListActiveOffersHandler
-│   ├── DTOs/              OfferData
-│   └── Exceptions/
-└── Domain/
-    ├── Entities/          Offer, Merchant
-    ├── ValueObjects/      CashbackRate, OfferStatus
-    ├── Repositories/      OfferRepository, MerchantRepository
-    ├── Specifications/    OfferActiveSpecification
-    └── Exceptions/
-```
-
----
-
-## Example: Tracking
-
-```text
-Tracking/
-├── Application/
-│   ├── Actions/            CreateClickAction
-│   ├── DTOs/               CreateClickData, ClickData
-│   └── Exceptions/
-└── Domain/
-    ├── Entities/           Click
-    ├── ValueObjects/       ClickReference, DestinationUrl, TrackingUrl
-    ├── Events/             ClickCreated
-    ├── Repositories/       ClickRepository
-    └── Exceptions/
-```
-
----
-
-## Example: Transactions
-
-```text
-Transactions/
-├── Application/
-│   ├── Actions/            RecordConversion, ConfirmTransaction, ReverseTransaction
-│   ├── Commands/           RecordConversionCommand, ConfirmTransactionCommand, ReverseTransactionCommand
-│   ├── CommandHandlers/    RecordConversionHandler, ConfirmTransactionHandler, ReverseTransactionHandler
-│   ├── Queries/            GetUserTransactionsQuery
-│   ├── QueryHandlers/      GetUserTransactionsHandler
-│   ├── DTOs/               TransactionData
-│   └── Exceptions/
-└── Domain/
-    ├── Entities/           Transaction
-    ├── ValueObjects/       TransactionStatus, ExternalTransactionId, OrderAmount
-    ├── Events/             TransactionTracked, TransactionConfirmed, TransactionReversed
-    ├── Services/           CashbackCalculator, TransactionTransitionGuard
-    ├── Repositories/       TransactionRepository
-    ├── Specifications/     TransactionConfirmableSpecification, TransactionReversibleSpecification
-    └── Exceptions/
-```
-
----
-
-## Example: Ledger
-
-```text
-Ledger/
-├── Application/
-│   ├── Actions/            PostPendingCashback, MovePendingToAvailable, ReservePayoutFunds
-│   ├── Queries/            GetWalletBalanceQuery, GetLedgerEntriesQuery
-│   ├── QueryHandlers/      GetWalletBalanceHandler, GetLedgerEntriesHandler
-│   ├── DTOs/               WalletBalanceData, LedgerEntryData
-│   └── Exceptions/
-└── Domain/
-    ├── Entities/           LedgerEntry
-    ├── ValueObjects/       Money, LedgerBucket, LedgerDirection
-    ├── Events/             LedgerEntryPosted
-    ├── Services/           LedgerPostingService
-    ├── Repositories/       LedgerEntryRepository
-    ├── Specifications/     SufficientAvailableBalanceSpecification
-    └── Exceptions/
-```
-
----
-
-## Example: Payouts
-
-```text
-Payouts/
-├── Application/
-│   ├── Actions/            RequestPayout, ApprovePayout, MarkPayoutProcessing, CompletePayout, FailPayout
-│   ├── Commands/           RequestPayoutCommand, ApprovePayoutCommand
-│   ├── CommandHandlers/    RequestPayoutHandler, ApprovePayoutHandler
-│   ├── Queries/            GetUserPayoutRequestsQuery
-│   ├── QueryHandlers/      GetUserPayoutRequestsHandler
-│   ├── DTOs/               PayoutRequestData
-│   └── Exceptions/
-└── Domain/
-    ├── Entities/           PayoutRequest
-    ├── ValueObjects/       PayoutMethod, PayoutStatus, PayoutDestination
-    ├── Events/             PayoutRequested, PayoutApproved, PayoutCompleted, PayoutFailed
-    ├── Services/           PayoutEligibilityService
-    ├── Repositories/       PayoutRequestRepository
-    ├── Specifications/    PayoutEligibleSpecification
-    └── Exceptions/
-```
+| **Actions** | State-changing use cases (e.g. CreateClick, ConfirmTransaction, RequestPayout). One class per action; handles transaction boundaries and coordinates domain objects. |
+| **Contracts** | Interfaces for repositories and shared services (e.g. OfferRepository, LedgerEntryRepository, LedgerPostingContract). Implementations live in infrastructure. |
+| **DTOs** | Data transfer for action input/output and query results; keeps boundaries stable. |
+| **Entities** | Identity, state, invariants, and behavior (Offer, Click, Transaction, LedgerEntry, PayoutRequest). |
+| **Enums** | Enumeration types (e.g. Direction, OfferStatus, TransactionStatus, PayoutStatus). |
+| **Events** | Domain events (ClickCreated, TransactionConfirmed, LedgerEntryPosted, PayoutRequested). |
+| **Exceptions** | Domain or application exceptions (TransactionNotFound, TransactionCannotBeReversed). |
+| **Factories** | Build entities or complex value objects (e.g. TransactionFactory). |
+| **Queries** | Query request object + handler in the same folder (e.g. ListUserTransactionsQuery, ListUserTransactionsHandler). Handlers return DTOs, not entities. |
+| **Services** | Logic that spans entities or coordinates flows (LedgerPostingService, PayoutEligibilityService). |
+| **ValueObjects** | Immutable values (Money, CashbackRate, LedgerBucket, PayoutMethod, TransactionStatus). |
 
 ---
 
@@ -185,25 +57,15 @@ Payouts/
 
 ```text
 Shared/
-├── Application/   DTOs, Exceptions
-└── Domain/
-    ├── ValueObjects/   Money, Currency, Uuid, Email
-    ├── Events/
-    ├── Exceptions/
-    ├── Enums/
-    └── Services/
+├── Contracts/       LedgerPostingContract
+└── ValueObjects/   Currency, Email, Money
 ```
 
 ---
 
-## Minimal Layout
+## Conventions
 
-If you want fewer folders per module:
-
-```text
-ModuleName/
-├── Application/   Actions, Queries, QueryHandlers, DTOs, Exceptions
-└── Domain/        Entities, ValueObjects, Events, Services, Repositories, Exceptions
-```
-
-Specifications and Enums can live under Domain when needed.
+- **No Application/Domain split**: Types are grouped by kind (Actions, Entities, etc.), not by layer. Keep domain logic in entities, value objects, and services; use actions and query handlers for orchestration.
+- **Contracts over Repositories**: Repository interfaces live in `Contracts/`; implementations belong in infrastructure.
+- **Queries**: Query class and handler live together in `Queries/` (e.g. `ListUserLedgerEntriesQuery.php`, `ListUserLedgerEntriesHandler.php`).
+- **Shared**: Use `Shared/` for types used by more than one module (e.g. Money, Currency, LedgerPostingContract). Module-specific types stay in their module.
