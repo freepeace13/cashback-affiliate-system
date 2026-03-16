@@ -2,7 +2,7 @@
 
 namespace CashbackAffiliateSystem\Transactions\Actions;
 
-use CashbackAffiliateSystem\Transactions\Contracts\TransactionRepository;
+use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
 use CashbackAffiliateSystem\Transactions\DTOs\RecordConversionData;
 use CashbackAffiliateSystem\Transactions\Entities\Transaction;
 use CashbackAffiliateSystem\Transactions\Factories\TransactionFactory;

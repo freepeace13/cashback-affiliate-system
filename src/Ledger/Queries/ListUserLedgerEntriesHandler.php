@@ -2,7 +2,7 @@
 
 namespace CashbackAffiliateSystem\Ledger\Queries;
 
-use CashbackAffiliateSystem\Ledger\Contracts\LedgerRepository;
+use CashbackAffiliateSystem\Ledger\Repositories\LedgerEntryRepository;
 use CashbackAffiliateSystem\Ledger\DTOs\LedgerEntryData;
 use CashbackAffiliateSystem\Ledger\Entities\LedgerEntry;
 use CashbackAffiliateSystem\Ledger\Queries\ListUserLedgerEntriesQuery;
@@ -10,7 +10,7 @@ use CashbackAffiliateSystem\Ledger\Queries\ListUserLedgerEntriesQuery;
 class ListUserLedgerEntriesHandler
 {
     public function __construct(
-        private LedgerRepository $ledgerRepository,
+        private LedgerEntryRepository $ledgerRepository,
     ) {}
 
     public function handle(ListUserLedgerEntriesQuery $query): array

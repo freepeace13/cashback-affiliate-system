@@ -2,13 +2,13 @@
 
 namespace CashbackAffiliateSystem\Ledger\Services;
 
-use CashbackAffiliateSystem\Shared\Contracts\LedgerPostingContract;
-use CashbackAffiliateSystem\Ledger\Contracts\LedgerRepository;
+use CashbackAffiliateSystem\Shared\Repositories\LedgerPostingContract;
+use CashbackAffiliateSystem\Ledger\Repositories\LedgerEntryRepository;
 
 class LedgerPostingService implements LedgerPostingContract
 {
     public function __construct(
-        private LedgerRepository $ledgerRepository,
+        private LedgerEntryRepository $ledgerRepository,
     ) {}
 
     public function reverseConfirmedCashback(

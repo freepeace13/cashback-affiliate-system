@@ -2,11 +2,11 @@
 
 namespace CashbackAffiliateSystem\Transactions\Actions;
 
-use CashbackAffiliateSystem\Transactions\Contracts\TransactionRepository;
+use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
 use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionID;
 use CashbackAffiliateSystem\Transactions\Exceptions\TransactionNotFound;
 // use CashbackAffiliateSystem\Transactions\Policies\TransactionReversalPolicy;
-use CashbackAffiliateSystem\Shared\Contracts\LedgerPostingContract;
+use CashbackAffiliateSystem\Shared\Repositories\LedgerPostingContract;
 use RuntimeException;
 
 class ReverseTransaction

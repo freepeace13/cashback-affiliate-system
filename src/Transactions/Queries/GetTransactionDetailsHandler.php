@@ -2,7 +2,7 @@
 
 namespace CashbackAffiliateSystem\Transactions\Queries;
 
-use CashbackAffiliateSystem\Transactions\Contracts\TransactionRepository;
+use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
 use CashbackAffiliateSystem\Transactions\DTOs\TransactionData;
 use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionID;
 

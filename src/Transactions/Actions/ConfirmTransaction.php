@@ -2,7 +2,7 @@
 
 namespace CashbackAffiliateSystem\Transactions\Actions;
 
-use CashbackAffiliateSystem\Transactions\Contracts\TransactionRepository;
+use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
 use CashbackAffiliateSystem\Transactions\DTOs\ConfirmTransactionData;
 
 final class ConfirmTransaction
