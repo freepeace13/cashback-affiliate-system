@@ -1,11 +1,11 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\Queries;
+namespace Cashback\Ledger\Queries;
 
-use CashbackAffiliateSystem\Ledger\Repositories\LedgerEntryRepository;
-use CashbackAffiliateSystem\Ledger\DTOs\LedgerEntryData;
-use CashbackAffiliateSystem\Ledger\Entities\LedgerEntry;
-use CashbackAffiliateSystem\Ledger\Queries\ListUserLedgerEntriesQuery;
+use Cashback\Ledger\Repositories\LedgerEntryRepository;
+use Cashback\Ledger\DTOs\LedgerEntryData;
+use Cashback\Ledger\Entities\LedgerEntry;
+use Cashback\Ledger\Queries\ListUserLedgerEntriesQuery;
 
 class ListUserLedgerEntriesHandler
 {

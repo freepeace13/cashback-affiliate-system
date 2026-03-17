@@ -1,12 +1,12 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Entities;
+namespace Cashback\Transactions\Entities;
 
-use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionID;
-use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionStatus;
-use CashbackAffiliateSystem\Shared\ValueObjects\Money;
-use CashbackAffiliateSystem\Transactions\Events\TransactionConfirmed;
-use CashbackAffiliateSystem\Transactions\Exceptions\TransactionCannotBeConfirmed;
+use Cashback\Transactions\ValueObjects\TransactionID;
+use Cashback\Transactions\ValueObjects\TransactionStatus;
+use Cashback\Shared\ValueObjects\Money;
+use Cashback\Transactions\Events\TransactionConfirmed;
+use Cashback\Transactions\Exceptions\TransactionCannotBeConfirmed;
 use DateTimeImmutable;
 
 final class Transaction

@@ -1,11 +1,11 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\DTOs;
+namespace Cashback\Transactions\DTOs;
 
-use CashbackAffiliateSystem\Transactions\ValueObjects\ExternalTransactionID;
-use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionStatus;
-use CashbackAffiliateSystem\Shared\ValueObjects\Currency;
-use CashbackAffiliateSystem\Shared\ValueObjects\Money;
+use Cashback\Transactions\ValueObjects\ExternalTransactionID;
+use Cashback\Transactions\ValueObjects\TransactionStatus;
+use Cashback\Shared\ValueObjects\Currency;
+use Cashback\Shared\ValueObjects\Money;
 use DateTimeImmutable;
 
 final class RecordConversionData

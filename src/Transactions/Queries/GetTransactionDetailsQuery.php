@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Queries;
+namespace Cashback\Transactions\Queries;
 
 class GetTransactionDetailsQuery
 {

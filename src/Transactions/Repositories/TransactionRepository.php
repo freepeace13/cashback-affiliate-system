@@ -1,10 +1,10 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Repositories;
+namespace Cashback\Transactions\Repositories;
 
-use CashbackAffiliateSystem\Transactions\Entities\Transaction;
-use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionID;
-use CashbackAffiliateSystem\Transactions\ValueObjects\ExternalTransactionID;
+use Cashback\Transactions\Entities\Transaction;
+use Cashback\Transactions\ValueObjects\TransactionID;
+use Cashback\Transactions\ValueObjects\ExternalTransactionID;
 
 interface TransactionRepository
 {

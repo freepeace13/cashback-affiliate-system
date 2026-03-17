@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\ValueObjects;
+namespace Cashback\Transactions\ValueObjects;
 
 final class ExternalTransactionID
 {

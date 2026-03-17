@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Shared\Repositories;
+namespace Cashback\Shared\Repositories;
 
 interface LedgerPostingContract
 {

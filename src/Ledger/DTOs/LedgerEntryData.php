@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\DTOs;
+namespace Cashback\Ledger\DTOs;
 
 final class LedgerEntryData
 {

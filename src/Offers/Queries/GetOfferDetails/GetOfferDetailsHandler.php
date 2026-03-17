@@ -1,10 +1,10 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\GetOfferDetails;
+namespace Cashback\Offers\Queries\GetOfferDetails;
 
-use CashbackAffiliateSystem\Offers\DTOs\OfferData;
-use CashbackAffiliateSystem\Offers\Repositories\OfferRepository;
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\DTOs\OfferData;
+use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\ValueObjects\OfferID;
 
 class GetOfferDetailsHandler
 {

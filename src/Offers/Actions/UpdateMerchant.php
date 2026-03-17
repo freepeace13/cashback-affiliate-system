@@ -1,12 +1,12 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Actions;
+namespace Cashback\Offers\Actions;
 
-use CashbackAffiliateSystem\Offers\Entities\Merchant;
-use CashbackAffiliateSystem\Offers\Repositories\MerchantRepository;
-use CashbackAffiliateSystem\Offers\DTOs\MerchantData;
-use CashbackAffiliateSystem\Offers\Contracts\UpdatesMerchantAction;
-use CashbackAffiliateSystem\Offers\ValueObjects\MerchantID;
+use Cashback\Offers\Entities\Merchant;
+use Cashback\Offers\Repositories\MerchantRepository;
+use Cashback\Offers\DTOs\MerchantData;
+use Cashback\Offers\Contracts\UpdatesMerchantAction;
+use Cashback\Offers\ValueObjects\MerchantID;
 use RuntimeException;
 
 class UpdateMerchant implements UpdatesMerchantAction

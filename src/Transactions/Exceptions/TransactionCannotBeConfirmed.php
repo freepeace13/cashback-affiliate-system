@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Exceptions;
+namespace Cashback\Transactions\Exceptions;
 
 use RuntimeException;
 

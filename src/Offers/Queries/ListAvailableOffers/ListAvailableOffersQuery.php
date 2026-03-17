@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\ListAvailableOffers;
+namespace Cashback\Offers\Queries\ListAvailableOffers;
 
 class ListAvailableOffersQuery
 {

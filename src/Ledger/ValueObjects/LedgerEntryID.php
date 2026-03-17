@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\ValueObjects;
+namespace Cashback\Ledger\ValueObjects;
 
 final class LedgerEntryID
 {

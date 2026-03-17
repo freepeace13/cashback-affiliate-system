@@ -1,11 +1,11 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Actions;
+namespace Cashback\Offers\Actions;
 
-use CashbackAffiliateSystem\Offers\Contracts\AssignOfferMerchantAction;
-use CashbackAffiliateSystem\Offers\Repositories\OfferRepository;
-use CashbackAffiliateSystem\Offers\ValueObjects\MerchantID;
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\Contracts\AssignOfferMerchantAction;
+use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\ValueObjects\MerchantID;
+use Cashback\Offers\ValueObjects\OfferID;
 
 class AssignOfferMerchant implements AssignOfferMerchantAction
 {

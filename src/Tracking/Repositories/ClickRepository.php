@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Repositories;
+namespace Cashback\Tracking\Repositories;
 
-use CashbackAffiliateSystem\Tracking\Entities\Click;
+use Cashback\Tracking\Entities\Click;
 
 interface ClickRepository
 {

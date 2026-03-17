@@ -1,12 +1,12 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Actions;
+namespace Cashback\Offers\Actions;
 
-use CashbackAffiliateSystem\Offers\Entities\Offer;
-use CashbackAffiliateSystem\Offers\Repositories\OfferRepository;
-use CashbackAffiliateSystem\Offers\DTOs\OfferData;
-use CashbackAffiliateSystem\Offers\Contracts\UpdatesOfferAction;
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\Entities\Offer;
+use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\DTOs\OfferData;
+use Cashback\Offers\Contracts\UpdatesOfferAction;
+use Cashback\Offers\ValueObjects\OfferID;
 use RuntimeException;
 
 class UpdateOffer implements UpdatesOfferAction

@@ -1,6 +1,5 @@
 {
-    "name": "cashback-affiliate-system",
-    "version": "1.0.0",
+    "name": "freepeace13/cashback-affiliate-system",
     "description": "A backend architecture demo for building a cashback affiliate platform similar to Rakuten or TopCashback.",
     "author": {
         "name": "Kin Basco",
@@ -12,7 +11,7 @@
     },
     "autoload": {
         "psr-4": {
-            "CashbackAffiliateSystem\\": "src/"
+            "Cashback\\": "src/"
         }
     }
 }

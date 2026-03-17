@@ -1,11 +1,11 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Actions;
+namespace Cashback\Transactions\Actions;
 
-use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
-use CashbackAffiliateSystem\Transactions\DTOs\RecordConversionData;
-use CashbackAffiliateSystem\Transactions\Entities\Transaction;
-use CashbackAffiliateSystem\Transactions\Factories\TransactionFactory;
+use Cashback\Transactions\Repositories\TransactionRepository;
+use Cashback\Transactions\DTOs\RecordConversionData;
+use Cashback\Transactions\Entities\Transaction;
+use Cashback\Transactions\Factories\TransactionFactory;
 
 final class RecordConversion
 {

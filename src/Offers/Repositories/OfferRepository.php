@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Repositories;
+namespace Cashback\Offers\Repositories;
 
-use CashbackAffiliateSystem\Offers\Entities\Offer;
+use Cashback\Offers\Entities\Offer;
 
 interface OfferRepository
 {

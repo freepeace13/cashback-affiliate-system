@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\DTOs;
+namespace Cashback\Tracking\DTOs;
 
 final class ClickData
 {

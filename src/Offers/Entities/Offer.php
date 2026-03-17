@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Entities;
+namespace Cashback\Offers\Entities;
 
 class Offer
 {

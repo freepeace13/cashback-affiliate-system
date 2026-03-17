@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\GetOfferCashbackRule;
+namespace Cashback\Offers\Queries\GetOfferCashbackRule;
 
 class GetOfferCashbackRuleQuery
 {

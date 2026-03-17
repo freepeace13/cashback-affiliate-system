@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Contracts;
+namespace Cashback\Offers\Contracts;
 
-use CashbackAffiliateSystem\Offers\DTOs\OfferData;
+use Cashback\Offers\DTOs\OfferData;
 
 interface CreatesOfferAction
 {

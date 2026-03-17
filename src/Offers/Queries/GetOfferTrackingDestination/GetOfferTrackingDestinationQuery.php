@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\GetOfferTrackingDestination;
+namespace Cashback\Offers\Queries\GetOfferTrackingDestination;
 
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\ValueObjects\OfferID;
 
 class GetOfferTrackingDestinationQuery
 {

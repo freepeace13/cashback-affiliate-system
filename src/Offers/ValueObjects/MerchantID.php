@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\ValueObjects;
+namespace Cashback\Offers\ValueObjects;
 
 class MerchantID
 {

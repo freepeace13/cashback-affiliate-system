@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\ValueObjects;
+namespace Cashback\Tracking\ValueObjects;
 
 use InvalidArgumentException;
 

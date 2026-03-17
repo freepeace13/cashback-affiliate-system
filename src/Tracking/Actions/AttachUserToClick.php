@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Actions;
+namespace Cashback\Tracking\Actions;
 
-use CashbackAffiliateSystem\Tracking\Contracts\AttachesUserToClickAction;
-use CashbackAffiliateSystem\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\AttachesUserToClickAction;
+use Cashback\Tracking\Repositories\ClickRepository;
 
 /**
  * Attaches a logged-in user to an existing click created before login.

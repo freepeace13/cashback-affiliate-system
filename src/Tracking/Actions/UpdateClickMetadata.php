@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Actions;
+namespace Cashback\Tracking\Actions;
 
-use CashbackAffiliateSystem\Tracking\Contracts\UpdatesClickMetadataAction;
-use CashbackAffiliateSystem\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\UpdatesClickMetadataAction;
+use Cashback\Tracking\Repositories\ClickRepository;
 
 /**
  * Updates metadata associated with a click (e.g. session, UTM, campaign).

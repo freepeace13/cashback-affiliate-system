@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Factories;
+namespace Cashback\Transactions\Factories;
 
-use CashbackAffiliateSystem\Transactions\DTOs\RecordConversionData;
-use CashbackAffiliateSystem\Transactions\Entities\Transaction;
+use Cashback\Transactions\DTOs\RecordConversionData;
+use Cashback\Transactions\Entities\Transaction;
 
 interface TransactionFactory
 {

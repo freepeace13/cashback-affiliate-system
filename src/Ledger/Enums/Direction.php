@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\Enums;
+namespace Cashback\Ledger\Enums;
 
 enum Direction: string
 {

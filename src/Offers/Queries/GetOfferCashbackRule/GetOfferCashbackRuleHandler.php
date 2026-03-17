@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\GetOfferCashbackRule;
+namespace Cashback\Offers\Queries\GetOfferCashbackRule;
 
-use CashbackAffiliateSystem\Offers\Repositories\OfferRepository;
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\ValueObjects\OfferID;
 
 class GetOfferCashbackRuleHandler
 {

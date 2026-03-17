@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts;
 
 /**
  * Stores the network-provided click identifier alongside the internal click.

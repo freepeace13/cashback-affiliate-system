@@ -1,12 +1,12 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\Entities;
+namespace Cashback\Ledger\Entities;
 
-use CashbackAffiliateSystem\Ledger\ValueObjects\LedgerBucket;
-use CashbackAffiliateSystem\Ledger\Enums\Direction;
-use CashbackAffiliateSystem\Shared\ValueObjects\Money;
-use CashbackAffiliateSystem\Shared\ValueObjects\Currency;
-use CashbackAffiliateSystem\Ledger\ValueObjects\LedgerEntryID;
+use Cashback\Ledger\ValueObjects\LedgerBucket;
+use Cashback\Ledger\Enums\Direction;
+use Cashback\Shared\ValueObjects\Money;
+use Cashback\Shared\ValueObjects\Currency;
+use Cashback\Ledger\ValueObjects\LedgerEntryID;
 
 class LedgerEntry
 {

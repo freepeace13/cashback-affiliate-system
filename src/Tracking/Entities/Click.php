@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Entities;
+namespace Cashback\Tracking\Entities;
 
 class Click
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\DTOs;
+namespace Cashback\Offers\DTOs;
 
 final class OfferData
 {

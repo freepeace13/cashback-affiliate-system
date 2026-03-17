@@ -1,11 +1,11 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Actions;
+namespace Cashback\Offers\Actions;
 
-use CashbackAffiliateSystem\Offers\Entities\Merchant;
-use CashbackAffiliateSystem\Offers\Repositories\MerchantRepository;
-use CashbackAffiliateSystem\Offers\DTOs\MerchantData;
-use CashbackAffiliateSystem\Offers\Contracts\CreatesMerchantAction;
+use Cashback\Offers\Entities\Merchant;
+use Cashback\Offers\Repositories\MerchantRepository;
+use Cashback\Offers\DTOs\MerchantData;
+use Cashback\Offers\Contracts\CreatesMerchantAction;
 
 class CreateMerchant implements CreatesMerchantAction
 {

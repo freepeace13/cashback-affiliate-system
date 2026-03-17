@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Actions;
+namespace Cashback\Tracking\Actions;
 
-use CashbackAffiliateSystem\Tracking\Contracts\RegistersExternalClickRefAction;
-use CashbackAffiliateSystem\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\RegistersExternalClickRefAction;
+use Cashback\Tracking\Repositories\ClickRepository;
 
 /**
  * Registers the network-provided click identifier for an internal click.

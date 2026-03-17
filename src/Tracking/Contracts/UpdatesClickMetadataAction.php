@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts;
 
 /**
  * Allows enrichment of click metadata after creation.

@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\GetMerchantDetails;
+namespace Cashback\Offers\Queries\GetMerchantDetails;
 
 class GetMerchantDetailsQuery
 {

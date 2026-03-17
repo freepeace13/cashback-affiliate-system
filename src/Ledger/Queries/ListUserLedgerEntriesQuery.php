@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\Queries;
+namespace Cashback\Ledger\Queries;
 
 final class ListUserLedgerEntriesQuery
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Payouts\ValueObjects;
+namespace Cashback\Payouts\ValueObjects;
 
 use InvalidArgumentException;
 

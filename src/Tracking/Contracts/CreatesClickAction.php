@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts;
 
-use CashbackAffiliateSystem\Tracking\DTOs\ClickData;
-use CashbackAffiliateSystem\Tracking\DTOs\CreateClickData;
+use Cashback\Tracking\DTOs\ClickData;
+use Cashback\Tracking\DTOs\CreateClickData;
 
 /**
  * Action contract for creating a tracking click.

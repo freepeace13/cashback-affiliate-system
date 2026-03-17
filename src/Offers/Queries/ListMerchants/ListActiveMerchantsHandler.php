@@ -1,10 +1,10 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\ListMerchants;
+namespace Cashback\Offers\Queries\ListMerchants;
 
-use CashbackAffiliateSystem\Offers\DTOs\MerchantData;
-use CashbackAffiliateSystem\Offers\Entities\Merchant;
-use CashbackAffiliateSystem\Offers\Repositories\MerchantRepository;
+use Cashback\Offers\DTOs\MerchantData;
+use Cashback\Offers\Entities\Merchant;
+use Cashback\Offers\Repositories\MerchantRepository;
 
 class ListActiveMerchantsHandler
 {

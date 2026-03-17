@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Contracts;
+namespace Cashback\Offers\Contracts;
 
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
-use CashbackAffiliateSystem\Offers\ValueObjects\MerchantID;
+use Cashback\Offers\ValueObjects\OfferID;
+use Cashback\Offers\ValueObjects\MerchantID;
 
 interface AssignOfferMerchantAction
 {

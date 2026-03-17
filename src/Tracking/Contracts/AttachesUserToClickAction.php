@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts;
 
 /**
  * Handles the case where a click was created before the user logged in.

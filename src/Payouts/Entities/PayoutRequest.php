@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Payouts\Entities;
+namespace Cashback\Payouts\Entities;
 
 class PayoutRequest
 {

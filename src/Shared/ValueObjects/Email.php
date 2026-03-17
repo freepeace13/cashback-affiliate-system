@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Shared\ValueObjects;
+namespace Cashback\Shared\ValueObjects;
 
 final class Email
 {

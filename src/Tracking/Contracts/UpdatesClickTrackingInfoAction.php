@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts;
 
 /**
  * Updates device or request details for a click if needed.

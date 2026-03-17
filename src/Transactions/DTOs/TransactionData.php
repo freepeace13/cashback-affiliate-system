@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\DTOs;
+namespace Cashback\Transactions\DTOs;
 
 class TransactionData
 {

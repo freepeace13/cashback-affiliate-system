@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Contracts; 
+namespace Cashback\Offers\Contracts; 
 
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\ValueObjects\OfferID;
 use DateTimeInterface;
 
 interface SchedulesOffersAvailabilityAction

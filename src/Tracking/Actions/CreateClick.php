@@ -1,12 +1,12 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Actions;
+namespace Cashback\Tracking\Actions;
 
-use CashbackAffiliateSystem\Tracking\Contracts\CreatesClickAction;
-use CashbackAffiliateSystem\Tracking\DTOs\ClickData;
-use CashbackAffiliateSystem\Tracking\DTOs\CreateClickData;
-use CashbackAffiliateSystem\Tracking\Entities\Click;
-use CashbackAffiliateSystem\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\CreatesClickAction;
+use Cashback\Tracking\DTOs\ClickData;
+use Cashback\Tracking\DTOs\CreateClickData;
+use Cashback\Tracking\Entities\Click;
+use Cashback\Tracking\Repositories\ClickRepository;
 
 /**
  * Creates a new tracking Click for a user and offer.

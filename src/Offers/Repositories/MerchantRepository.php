@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Repositories;
+namespace Cashback\Offers\Repositories;
 
-use CashbackAffiliateSystem\Offers\Entities\Merchant;
-use CashbackAffiliateSystem\Offers\ValueObjects\MerchantID;
+use Cashback\Offers\Entities\Merchant;
+use Cashback\Offers\ValueObjects\MerchantID;
 
 interface MerchantRepository
 {

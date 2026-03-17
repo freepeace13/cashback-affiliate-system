@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Actions;
+namespace Cashback\Transactions\Actions;
 
-use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
-use CashbackAffiliateSystem\Transactions\DTOs\ConfirmTransactionData;
+use Cashback\Transactions\Repositories\TransactionRepository;
+use Cashback\Transactions\DTOs\ConfirmTransactionData;
 
 final class ConfirmTransaction
 {

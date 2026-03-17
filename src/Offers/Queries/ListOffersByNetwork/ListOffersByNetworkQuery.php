@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\ListOffersByNetwork;
+namespace Cashback\Offers\Queries\ListOffersByNetwork;
 
-use CashbackAffiliateSystem\Offers\ValueObjects\NetworkID;
+use Cashback\Offers\ValueObjects\NetworkID;
 
 class ListOffersByNetworkQuery
 {

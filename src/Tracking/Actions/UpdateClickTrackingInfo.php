@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Tracking\Actions;
+namespace Cashback\Tracking\Actions;
 
-use CashbackAffiliateSystem\Tracking\Contracts\UpdatesClickTrackingInfoAction;
-use CashbackAffiliateSystem\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\UpdatesClickTrackingInfoAction;
+use Cashback\Tracking\Repositories\ClickRepository;
 
 /**
  * Updates device or request tracking information for a click.

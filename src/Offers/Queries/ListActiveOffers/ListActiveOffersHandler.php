@@ -1,10 +1,10 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\ListActiveOffers;
+namespace Cashback\Offers\Queries\ListActiveOffers;
 
-use CashbackAffiliateSystem\Offers\DTOs\OfferData;
-use CashbackAffiliateSystem\Offers\Entities\Offer;
-use CashbackAffiliateSystem\Offers\Repositories\OfferRepository;
+use Cashback\Offers\DTOs\OfferData;
+use Cashback\Offers\Entities\Offer;
+use Cashback\Offers\Repositories\OfferRepository;
 
 class ListActiveOffersHandler
 {

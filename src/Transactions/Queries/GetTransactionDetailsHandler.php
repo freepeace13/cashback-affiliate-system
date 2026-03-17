@@ -1,10 +1,10 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Queries;
+namespace Cashback\Transactions\Queries;
 
-use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
-use CashbackAffiliateSystem\Transactions\DTOs\TransactionData;
-use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionID;
+use Cashback\Transactions\Repositories\TransactionRepository;
+use Cashback\Transactions\DTOs\TransactionData;
+use Cashback\Transactions\ValueObjects\TransactionID;
 
 class GetTransactionDetailsHandler
 {

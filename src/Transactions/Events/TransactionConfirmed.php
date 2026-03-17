@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Events;
+namespace Cashback\Transactions\Events;
 
-use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionID;
+use Cashback\Transactions\ValueObjects\TransactionID;
 use DateTimeImmutable;
 
 final class TransactionConfirmed

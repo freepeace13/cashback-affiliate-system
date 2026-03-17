@@ -1,12 +1,12 @@
 <?php
 
-namespace CashbackAffiliateSystem\Transactions\Actions;
+namespace Cashback\Transactions\Actions;
 
-use CashbackAffiliateSystem\Transactions\Repositories\TransactionRepository;
-use CashbackAffiliateSystem\Transactions\ValueObjects\TransactionID;
-use CashbackAffiliateSystem\Transactions\Exceptions\TransactionNotFound;
-// use CashbackAffiliateSystem\Transactions\Policies\TransactionReversalPolicy;
-use CashbackAffiliateSystem\Shared\Repositories\LedgerPostingContract;
+use Cashback\Transactions\Repositories\TransactionRepository;
+use Cashback\Transactions\ValueObjects\TransactionID;
+use Cashback\Transactions\Exceptions\TransactionNotFound;
+// use Cashback\Transactions\Policies\TransactionReversalPolicy;
+use Cashback\Shared\Repositories\LedgerPostingContract;
 use RuntimeException;
 
 class ReverseTransaction

@@ -1,10 +1,10 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Actions;
+namespace Cashback\Offers\Actions;
 
-use CashbackAffiliateSystem\Offers\Contracts\SchedulesOffersAvailabilityAction;
-use CashbackAffiliateSystem\Offers\Repositories\OfferRepository;
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\Contracts\SchedulesOffersAvailabilityAction;
+use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\ValueObjects\OfferID;
 use DateTimeInterface;
 
 class ScheduleOfferAvailability implements SchedulesOffersAvailabilityAction

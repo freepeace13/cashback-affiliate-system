@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\Repositories;
+namespace Cashback\Ledger\Repositories;
 
-use CashbackAffiliateSystem\Ledger\Entities\LedgerEntry;
-use CashbackAffiliateSystem\Ledger\ValueObjects\LedgerEntryID;
+use Cashback\Ledger\Entities\LedgerEntry;
+use Cashback\Ledger\ValueObjects\LedgerEntryID;
 
 interface LedgerEntryRepository
 {

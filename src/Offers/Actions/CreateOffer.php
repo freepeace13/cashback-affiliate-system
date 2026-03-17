@@ -1,11 +1,11 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Actions;
+namespace Cashback\Offers\Actions;
 
-use CashbackAffiliateSystem\Offers\Contracts\CreatesOfferAction;
-use CashbackAffiliateSystem\Offers\DTOs\OfferData;
-use CashbackAffiliateSystem\Offers\Entities\Offer;
-use CashbackAffiliateSystem\Offers\Repositories\OfferRepository;
+use Cashback\Offers\Contracts\CreatesOfferAction;
+use Cashback\Offers\DTOs\OfferData;
+use Cashback\Offers\Entities\Offer;
+use Cashback\Offers\Repositories\OfferRepository;
 
 class CreateOffer implements CreatesOfferAction
 {

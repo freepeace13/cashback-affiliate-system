@@ -1,8 +1,8 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Queries\ListOffersByMerchant;
+namespace Cashback\Offers\Queries\ListOffersByMerchant;
 
-use CashbackAffiliateSystem\Offers\ValueObjects\MerchantID;
+use Cashback\Offers\ValueObjects\MerchantID;
 
 class ListOffersByMerchantQuery
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Ledger\Services;
+namespace Cashback\Ledger\Services;
 
-use CashbackAffiliateSystem\Shared\Repositories\LedgerPostingContract;
-use CashbackAffiliateSystem\Ledger\Repositories\LedgerEntryRepository;
+use Cashback\Shared\Repositories\LedgerPostingContract;
+use Cashback\Ledger\Repositories\LedgerEntryRepository;
 
 class LedgerPostingService implements LedgerPostingContract
 {

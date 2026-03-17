@@ -1,6 +1,6 @@
 <?php
 
-namespace CashbackAffiliateSystem\Payouts\Repositories;
+namespace Cashback\Payouts\Repositories;
 
 interface PayoutRequestRepository
 {

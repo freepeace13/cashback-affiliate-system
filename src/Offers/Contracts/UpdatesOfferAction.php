@@ -1,9 +1,9 @@
 <?php
 
-namespace CashbackAffiliateSystem\Offers\Contracts;
+namespace Cashback\Offers\Contracts;
 
-use CashbackAffiliateSystem\Offers\DTOs\OfferData;
-use CashbackAffiliateSystem\Offers\ValueObjects\OfferID;
+use Cashback\Offers\DTOs\OfferData;
+use Cashback\Offers\ValueObjects\OfferID;
 
 interface UpdatesOfferAction
 {
