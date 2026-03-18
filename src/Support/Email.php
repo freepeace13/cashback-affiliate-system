@@ -1,13 +1,15 @@
 <?php
 
-namespace Cashback\Offers\ValueObjects;
+namespace Cashback\Support;
 
-class CashbackRate
+use InvalidArgumentException;
+
+final class Email
 {
     public function __construct(private string $value)
     {
-        if (trim($value) === '') {
-            throw new \Exception('Cashback rate cannot be empty');
+        if (! filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('Invalid email address');
         }
     }
 

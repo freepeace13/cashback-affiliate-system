@@ -1,6 +1,6 @@
 <?php
 
-namespace Cashback\Shared\ValueObjects;
+namespace Cashback\Support;
 
 use InvalidArgumentException;
 

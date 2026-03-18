@@ -26,13 +26,12 @@ class GetMerchantDetailsHandler
             return null;
         }
 
-        // Entity is very minimal; we map what we have and leave others empty.
         return new MerchantData(
-            name: $merchant->name,
-            slug: $merchant->id,
-            websiteUrl: '',
-            logoUrl: '',
-            status: '',
+            name: $merchant->name(),
+            slug: $merchant->slug(),
+            websiteUrl: $merchant->websiteUrl(),
+            logoUrl: $merchant->logoUrl() ?? '',
+            status: $merchant->status(),
             createdAt: '',
             updatedAt: '',
         );

@@ -18,7 +18,7 @@ class GetOfferTrackingDestinationHandler
             return null;
         }
 
-        return $offer->trackingUrl;
+        return $offer->trackingUrl();
     }
 }
 

@@ -22,10 +22,8 @@ final class RecordConversion
             return $existing;
         }
 
-        $this->transactions->save(
-            $transaction = $this->factory->fromConversionData($data)
-        );
+        $transaction = $this->factory->fromConversionData($data);
 
-        return $transaction;
+        return $this->transactions->create($transaction);
     }
 }

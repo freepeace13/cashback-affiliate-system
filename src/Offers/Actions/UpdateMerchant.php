@@ -6,8 +6,6 @@ use Cashback\Offers\Entities\Merchant;
 use Cashback\Offers\Repositories\MerchantRepository;
 use Cashback\Offers\DTOs\MerchantData;
 use Cashback\Offers\Contracts\UpdatesMerchantAction;
-use Cashback\Offers\ValueObjects\MerchantID;
-use RuntimeException;
 
 class UpdateMerchant implements UpdatesMerchantAction
 {
@@ -15,22 +13,19 @@ class UpdateMerchant implements UpdatesMerchantAction
         private MerchantRepository $merchantRepository
     ) {}
 
-    public function update(MerchantID $id, MerchantData $data): MerchantData
+    public function update(MerchantData $data): MerchantData
     {
-        $existing = $this->merchantRepository->find($id);
+        // TODO: Might need to do some validation here.
 
-        if (! $existing instanceof Merchant) {
-            throw new RuntimeException('Merchant not found for ID '.$id->value());
-        }
-
-        $updated = new Merchant(
-            id: $existing->id,
+        $this->merchantRepository->update(new Merchant(
+            id: $data->id,
             name: $data->name,
-        );
+            slug: $data->slug,
+            status: $data->status,
+            websiteUrl: $data->websiteUrl,
+            logoUrl: $data->logoUrl,
+        ));
 
-        $this->merchantRepository->update($id, $updated);
-
-        // Map back to DTO (for now, we use the provided data as the source of truth).
         return $data;
     }
 }

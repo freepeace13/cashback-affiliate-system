@@ -1,13 +1,13 @@
 <?php
 
-namespace Cashback\Shared\ValueObjects;
+namespace Cashback\Support;
 
 use InvalidArgumentException;
 
 final class Money
 {
     private int $amount;
-    
+
     private Currency $currency;
 
     public function __construct(int $amount, string $currency)
@@ -20,12 +20,12 @@ final class Money
         $this->currency = new Currency($currency);
     }
 
-    public function amount(): int
+    public function value(): int
     {
         return $this->amount;
     }
 
-    public function currency(): string
+    public function currency(): Currency
     {
         return $this->currency;
     }

@@ -21,11 +21,11 @@ class ListActiveMerchantsHandler
 
         return array_map(
             fn (Merchant $merchant): MerchantData => new MerchantData(
-                name: $merchant->name,
-                slug: $merchant->id,
-                websiteUrl: '',
-                logoUrl: '',
-                status: '',
+                name: $merchant->name(),
+                slug: $merchant->slug(),
+                websiteUrl: $merchant->websiteUrl(),
+                logoUrl: $merchant->logoUrl() ?? '',
+                status: $merchant->status(),
                 createdAt: '',
                 updatedAt: '',
             ),

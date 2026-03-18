@@ -15,34 +15,30 @@ final class CreateOfferTest extends TestCase
         $action = new CreateOffer($repository);
 
         $data = new OfferData(
-            name: $this->faker->catchPhrase(),
+            id: 0,
+            title: $this->faker->catchPhrase(),
             description: $this->faker->sentence(),
             trackingUrl: $this->faker->url(),
             cashbackType: 'percentage',
             cashbackValue: '5',
             currency: 'USD',
             status: 'active',
-            createdAt: $this->faker->iso8601(),
-            updatedAt: $this->faker->iso8601(),
         );
 
         $returned = $action->create($data);
 
-        $this->assertSame($data, $returned);
+        $this->assertSame($data->title, $returned->title);
 
         $offers = $repository->listActiveOffers();
         $this->assertCount(1, $offers);
 
         $created = $offers[0];
-        $this->assertSame($data->name, $created->name);
-        $this->assertSame($data->description, $created->description);
-        $this->assertSame($data->trackingUrl, $created->trackingUrl);
-        $this->assertSame($data->cashbackType, $created->cashbackType);
-        $this->assertSame($data->cashbackValue, $created->cashbackValue);
-        $this->assertSame($data->currency, $created->currency);
-        $this->assertSame($data->status, $created->status);
-        $this->assertSame($data->createdAt, $created->createdAt);
-        $this->assertSame($data->updatedAt, $created->updatedAt);
+        $this->assertSame($data->title, $created->title());
+        $this->assertSame($data->description, $created->description() ?? '');
+        $this->assertSame($data->trackingUrl, $created->trackingUrl());
+        $this->assertSame($data->cashbackType, $created->cashbackType());
+        $this->assertSame($data->cashbackValue, (string) $created->cashbackValue());
+        $this->assertSame($data->currency, $created->currency());
+        $this->assertSame($data->status, $created->status()->value);
     }
 }
-

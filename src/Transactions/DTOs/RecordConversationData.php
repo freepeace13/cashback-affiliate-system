@@ -2,10 +2,10 @@
 
 namespace Cashback\Transactions\DTOs;
 
+use Cashback\Support\Currency;
+use Cashback\Support\Money;
+use Cashback\Transactions\TransactionStatus;
 use Cashback\Transactions\ValueObjects\ExternalTransactionID;
-use Cashback\Transactions\ValueObjects\TransactionStatus;
-use Cashback\Shared\ValueObjects\Currency;
-use Cashback\Shared\ValueObjects\Money;
 use DateTimeImmutable;
 
 final class RecordConversionData

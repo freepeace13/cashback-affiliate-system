@@ -8,5 +8,8 @@ final class CreateClickData
         public readonly string $userId,
         public readonly string $merchantId,
         public readonly string $offerId,
+        public readonly string $affiliateNetworkId,
+        public readonly string $destinationUrl,
+        public readonly string $trackingUrl,
     ) {}
 }

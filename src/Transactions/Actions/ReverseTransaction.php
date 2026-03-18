@@ -6,7 +6,7 @@ use Cashback\Transactions\Repositories\TransactionRepository;
 use Cashback\Transactions\ValueObjects\TransactionID;
 use Cashback\Transactions\Exceptions\TransactionNotFound;
 // use Cashback\Transactions\Policies\TransactionReversalPolicy;
-use Cashback\Shared\Repositories\LedgerPostingContract;
+use Cashback\Contracts\LedgerPostingContract;
 use RuntimeException;
 
 class ReverseTransaction

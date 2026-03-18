@@ -15,14 +15,26 @@ class CreateMerchant implements CreatesMerchantAction
 
     public function create(MerchantData $data): MerchantData
     {
-        $merchant = new Merchant(
-            id: $data->slug,
-            name: $data->name,
+        // TODO: Might need to do some validation here.
+
+        $created = $this->merchantRepository->create(
+            new Merchant(
+                id: 0,
+                name: $data->name,
+                slug: $data->slug,
+                status: $data->status !== '' ? $data->status : 'active',
+                websiteUrl: $data->websiteUrl,
+                logoUrl: $data->logoUrl !== '' ? $data->logoUrl : null,
+            )
         );
 
-        $this->merchantRepository->create($merchant);
-
-        // Return DTO back to the caller so controllers/views don't depend on entities.
-        return $data;
+        return new MerchantData(
+            id: $created->id(),
+            name: $created->name(),
+            slug: $created->slug(),
+            status: $created->status(),
+            websiteUrl: $created->websiteUrl(),
+            logoUrl: $created->logoUrl(),
+        );
     }
 }

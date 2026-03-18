@@ -15,35 +15,37 @@ final class UpdateMerchantTest extends TestCase
     public function test_it_updates_an_existing_merchant(): void
     {
         $repository = new InMemoryMerchantRepository();
-        $id = new MerchantID('merchant-1');
 
         $existing = new Merchant(
-            id: $id->value(),
+            id: 0,
             name: 'Old Merchant',
+            slug: 'old-merchant',
+            status: 'active',
+            websiteUrl: 'https://example.com',
+            logoUrl: null,
         );
 
-        $repository->create($existing);
+        $created = $repository->create($existing);
 
         $action = new UpdateMerchant($repository);
 
         $data = new MerchantData(
+            id: $created->id(),
             name: 'New Merchant',
             slug: 'new-merchant',
             websiteUrl: 'https://example.com',
             logoUrl: 'https://example.com/logo.png',
             status: 'active',
-            createdAt: '2024-01-01T00:00:00Z',
-            updatedAt: '2024-02-01T00:00:00Z',
         );
 
-        $returned = $action->update($id, $data);
+        $returned = $action->update($data);
 
-        $this->assertSame($data, $returned);
+        $this->assertSame($data->name, $returned->name);
 
-        $stored = $repository->find($id);
+        $stored = $repository->find($created->id());
         $this->assertNotNull($stored);
-        $this->assertSame($id->value(), $stored->id);
-        $this->assertSame($data->name, $stored->name);
+        $this->assertSame((int) $created->id(), $stored->id());
+        $this->assertSame($data->name, $stored->name());
     }
 
     public function test_it_throws_when_merchant_not_found(): void
@@ -51,22 +53,18 @@ final class UpdateMerchantTest extends TestCase
         $repository = new InMemoryMerchantRepository();
         $action = new UpdateMerchant($repository);
 
-        $id = new MerchantID('missing-merchant');
-
         $data = new MerchantData(
+            id: 0,
             name: 'Any',
             slug: 'any',
             websiteUrl: 'https://example.com',
             logoUrl: 'https://example.com/logo.png',
             status: 'active',
-            createdAt: '2024-01-01T00:00:00Z',
-            updatedAt: '2024-01-01T00:00:00Z',
         );
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Merchant not found for ID '.$id->value());
+        $this->expectExceptionMessage('Merchant not found for update');
 
-        $action->update($id, $data);
+        $action->update($data);
     }
 }
-

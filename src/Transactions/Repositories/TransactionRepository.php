@@ -12,6 +12,7 @@ interface TransactionRepository
 
     public function listByUserId($userId): array;
 
-    public function save(Transaction $transaction): void;
-}
+    public function create(Transaction $transaction): Transaction;
 
+    public function update(Transaction $transaction): void;
+}

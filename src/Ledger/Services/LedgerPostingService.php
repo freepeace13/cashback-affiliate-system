@@ -2,7 +2,7 @@
 
 namespace Cashback\Ledger\Services;
 
-use Cashback\Shared\Repositories\LedgerPostingContract;
+use Cashback\Contracts\LedgerPostingContract;
 use Cashback\Ledger\Repositories\LedgerEntryRepository;
 
 class LedgerPostingService implements LedgerPostingContract

@@ -2,6 +2,8 @@
 
 namespace Cashback\Ledger\ValueObjects;
 
+use InvalidArgumentException;
+
 final class LedgerEntryID
 {
     public function __construct(

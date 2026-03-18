@@ -28,15 +28,17 @@ class GetOfferDetailsHandler
         }
 
         return new OfferData(
-            name: $offer->name,
-            description: $offer->description,
-            trackingUrl: $offer->trackingUrl,
-            cashbackType: $offer->cashbackType,
-            cashbackValue: $offer->cashbackValue,
-            currency: $offer->currency,
-            status: $offer->status,
-            createdAt: $offer->createdAt,
-            updatedAt: $offer->updatedAt,
+            name: $offer->title(),
+            description: $offer->description() ?? '',
+            trackingUrl: $offer->trackingUrl(),
+            cashbackType: $offer->cashbackType(),
+            cashbackValue: (string) $offer->cashbackValue(),
+            currency: $offer->currency(),
+            status: $offer->status()->value(),
+            createdAt: '',
+            updatedAt: '',
+            merchantId: $offer->merchantId(),
+            affiliateNetworkId: $offer->affiliateNetworkId(),
         );
     }
 }

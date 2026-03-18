@@ -2,7 +2,7 @@
 
 namespace Cashback\Ledger\Enums;
 
-enum Direction: string
+enum LedgerDirection: string
 {
     case CREDIT = 'credit';
     case DEBIT = 'debit';

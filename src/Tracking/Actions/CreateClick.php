@@ -24,16 +24,25 @@ class CreateClick implements CreatesClickAction
 
     public function create(CreateClickData $data): ClickData
     {
+        $clickRef = bin2hex(random_bytes(16));
         $click = new Click(
-            id: '', // ID generation is delegated to the persistence layer.
-            userId: $data->userId,
+            id: '',
+            clickRef: $clickRef,
+            userId: $data->userId !== '' ? $data->userId : null,
+            merchantId: (int) $data->merchantId,
+            offerId: $data->offerId !== '' ? (int) $data->offerId : null,
+            affiliateNetworkId: (int) $data->affiliateNetworkId,
+            destinationUrl: $data->destinationUrl,
+            trackingUrl: $data->trackingUrl,
+            clickedAt: new \DateTimeImmutable(),
         );
 
-        $this->clickRepository->save($click);
+        $saved = $this->clickRepository->save($click);
 
         return new ClickData(
-            id: $click->id,
-            userId: $click->userId,
+            id: $saved->id(),
+            userId: $saved->userId() ?? '',
+            clickRef: $saved->clickRef(),
         );
     }
 }

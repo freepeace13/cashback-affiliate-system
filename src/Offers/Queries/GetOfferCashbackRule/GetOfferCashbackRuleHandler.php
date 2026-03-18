@@ -29,9 +29,9 @@ class GetOfferCashbackRuleHandler
         }
 
         return [
-            'cashbackType' => $offer->cashbackType,
-            'cashbackValue' => $offer->cashbackValue,
-            'currency' => $offer->currency,
+            'cashbackType' => $offer->cashbackType(),
+            'cashbackValue' => (string) $offer->cashbackValue(),
+            'currency' => $offer->currency(),
         ];
     }
 }

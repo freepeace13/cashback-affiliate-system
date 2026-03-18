@@ -2,10 +2,11 @@
 
 namespace Cashback\Offers\Actions;
 
-use Cashback\Offers\Entities\Offer;
-use Cashback\Offers\Repositories\OfferRepository;
-use Cashback\Offers\DTOs\OfferData;
 use Cashback\Offers\Contracts\UpdatesOfferAction;
+use Cashback\Offers\DTOs\OfferData;
+use Cashback\Offers\Entities\Offer;
+use Cashback\Offers\Enums\OfferStatus;
+use Cashback\Offers\Repositories\OfferRepository;
 use Cashback\Offers\ValueObjects\OfferID;
 use RuntimeException;
 
@@ -15,40 +16,23 @@ class UpdateOffer implements UpdatesOfferAction
         private OfferRepository $offerRepository
     ) {}
 
-    public function update(OfferID $id, OfferData $data): OfferData
+    public function update(OfferData $data): OfferData
     {
-        $existing = $this->offerRepository->find($id);
+        // TODO: Might need to do some validation here.
 
-        if (! $existing instanceof Offer) {
-            throw new RuntimeException('Offer not found for ID '.$id->value());
-        }
-
-        $updated = new Offer(
-            id: $existing->id,
-            name: $data->name,
+        $this->offerRepository->update(new Offer(
+            id: $data->id,
+            merchantId: $data->merchantId,
+            affiliateNetworkId: $data->affiliateNetworkId,
+            title: $data->title,
             description: $data->description,
             trackingUrl: $data->trackingUrl,
             cashbackType: $data->cashbackType,
-            cashbackValue: $data->cashbackValue,
+            cashbackValue: (float) $data->cashbackValue,
             currency: $data->currency,
-            status: $data->status,
-            createdAt: $data->createdAt,
-            updatedAt: $data->updatedAt,
-        );
+            status: OfferStatus::from($data->status !== '' ? $data->status : 'active'),
+        ));
 
-        $this->offerRepository->update($id, $updated);
-
-        // Map entity back to DTO so callers only see DTOs.
-        return new OfferData(
-            name: $updated->name,
-            description: $updated->description,
-            trackingUrl: $updated->trackingUrl,
-            cashbackType: $updated->cashbackType,
-            cashbackValue: $updated->cashbackValue,
-            currency: $updated->currency,
-            status: $updated->status,
-            createdAt: $updated->createdAt,
-            updatedAt: $updated->updatedAt,
-        );
+        return $data;
     }
 }

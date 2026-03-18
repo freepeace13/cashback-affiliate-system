@@ -1,13 +1,13 @@
 <?php
 
-namespace Cashback\Offers\ValueObjects;
+namespace Cashback\Offers;
 
-class MerchantID
+class CashbackRate
 {
     public function __construct(private string $value)
     {
         if (trim($value) === '') {
-            throw new \Exception('Merchant ID cannot be empty');
+            throw new \Exception('Cashback rate cannot be empty');
         }
     }
 

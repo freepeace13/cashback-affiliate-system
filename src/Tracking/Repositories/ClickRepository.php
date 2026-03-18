@@ -8,7 +8,7 @@ interface ClickRepository
 {
     public function find(string $id): ?Click;
 
-    public function save(Click $click): void;
+    public function save(Click $click): Click;
 
     public function attachUser(string $clickRef, string $userId): void;
 

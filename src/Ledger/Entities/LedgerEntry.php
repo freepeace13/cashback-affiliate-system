@@ -2,30 +2,29 @@
 
 namespace Cashback\Ledger\Entities;
 
-use Cashback\Ledger\ValueObjects\LedgerBucket;
-use Cashback\Ledger\Enums\Direction;
-use Cashback\Shared\ValueObjects\Money;
-use Cashback\Shared\ValueObjects\Currency;
-use Cashback\Ledger\ValueObjects\LedgerEntryID;
+use Cashback\Ledger\Enums\LedgerDirection;
+use Cashback\Ledger\Enums\LedgerBucket;
+use Cashback\Support\Currency;
+use Cashback\Support\Money;
 
 class LedgerEntry
 {
     public function __construct(
-        private LedgerEntryID $id,
+        private int $id,
         private string $userId,
         private ?string $transactionId,
         private ?string $payoutRequestId,
         private string $entryType,
         private LedgerBucket $bucket,
-        private Direction $direction,
+        private LedgerDirection $direction,
         private Money $amount,
         private Currency $currency,
-        private string $description,
+        private ?string $description = null,
         private ?string $referenceType,
         private ?string $referenceId,
     ) {}
 
-    public function id(): LedgerEntryID
+    public function id(): int
     {
         return $this->id;
     }
@@ -50,12 +49,12 @@ class LedgerEntry
         return $this->entryType;
     }
 
-    public function bucket(): Bucket
+    public function bucket(): LedgerBucket
     {
         return $this->bucket;
     }
 
-    public function direction(): Direction
+    public function direction(): LedgerDirection
     {
         return $this->direction;
     }
@@ -70,7 +69,7 @@ class LedgerEntry
         return $this->currency;
     }
 
-    public function description(): string
+    public function description(): ?string
     {
         return $this->description;
     }
@@ -79,7 +78,7 @@ class LedgerEntry
     {
         return $this->referenceType;
     }
-    
+
     public function referenceId(): ?string
     {
         return $this->referenceId;

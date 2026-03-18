@@ -1,6 +1,6 @@
 <?php
 
-namespace Cashback\Shared\Repositories;
+namespace Cashback\Contracts;
 
 interface LedgerPostingContract
 {
@@ -18,4 +18,3 @@ interface LedgerPostingContract
         string $currency,
     ): void;
 }
-
