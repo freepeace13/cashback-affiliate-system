@@ -6,12 +6,24 @@
         "email": "freepeace13@gmail.com"
     },
     "license": "MIT",
-    "dependencies": {
+    "require": {
         "php": "^8.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.2",
+        "fakerphp/faker": "^1.23"
     },
     "autoload": {
         "psr-4": {
             "Cashback\\": "src/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Cashback\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
     }
 }

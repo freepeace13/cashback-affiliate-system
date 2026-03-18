@@ -3,6 +3,8 @@
 namespace Cashback\Offers\Repositories;
 
 use Cashback\Offers\Entities\Offer;
+use Cashback\Offers\ValueObjects\MerchantID;
+use Cashback\Offers\ValueObjects\OfferID;
 
 interface OfferRepository
 {
