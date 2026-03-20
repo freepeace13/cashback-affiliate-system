@@ -6,7 +6,7 @@ use Cashback\Support\Money;
 use Cashback\Transactions\Events\TransactionConfirmed;
 use Cashback\Transactions\Exceptions\TransactionCannotBeConfirmed;
 use Cashback\Transactions\Exceptions\TransactionCannotBeReversed;
-use Cashback\Transactions\TransactionStatus;
+use Cashback\Transactions\Enums\TransactionStatus;
 use Cashback\Transactions\ValueObjects\TransactionID;
 use DateTimeImmutable;
 

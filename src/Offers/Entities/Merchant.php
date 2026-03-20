@@ -2,16 +2,21 @@
 
 namespace Cashback\Offers\Entities;
 
-final class Merchant
+class Merchant
 {
     public function __construct(
-        private int $id,
-        private string $name,
-        private string $slug,
-        private string $status,
-        private string $websiteUrl = '',
-        private ?string $logoUrl = null,
+        protected int $id,
+        protected string $name,
+        protected string $slug,
+        protected string $status,
+        protected string $websiteUrl,
+        protected string $logoUrl,
     ) {}
+
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
+    }
 
     public function id(): int
     {
@@ -38,13 +43,8 @@ final class Merchant
         return $this->websiteUrl;
     }
 
-    public function logoUrl(): ?string
+    public function logoUrl(): string
     {
         return $this->logoUrl;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->status === 'active';
     }
 }

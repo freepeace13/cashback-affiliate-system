@@ -2,10 +2,10 @@
 
 namespace Cashback\Tests\Offers;
 
-use Cashback\Offers\Actions\UpdateMerchant;
-use Cashback\Offers\DTOs\MerchantData;
+use Cashback\Offers\Actions\UpdateMerchantAction;
+use Cashback\Offers\DTOs\Actions\UpdateMerchantData;
 use Cashback\Offers\Entities\Merchant;
-use Cashback\Offers\ValueObjects\MerchantID;
+use Cashback\Offers\Mappers\MerchantEntityMapper;
 use Cashback\Tests\Doubles\InMemoryMerchantRepository;
 use Cashback\Tests\TestCase;
 use RuntimeException;
@@ -22,19 +22,19 @@ final class UpdateMerchantTest extends TestCase
             slug: 'old-merchant',
             status: 'active',
             websiteUrl: 'https://example.com',
-            logoUrl: null,
+            logoUrl: '',
         );
 
         $created = $repository->create($existing);
 
-        $action = new UpdateMerchant($repository);
+        $action = new UpdateMerchantAction($repository, new MerchantEntityMapper());
 
-        $data = new MerchantData(
+        $data = new UpdateMerchantData(
             id: $created->id(),
             name: 'New Merchant',
             slug: 'new-merchant',
-            websiteUrl: 'https://example.com',
-            logoUrl: 'https://example.com/logo.png',
+            website_url: 'https://example.com',
+            logo_url: 'https://example.com/logo.png',
             status: 'active',
         );
 
@@ -51,14 +51,14 @@ final class UpdateMerchantTest extends TestCase
     public function test_it_throws_when_merchant_not_found(): void
     {
         $repository = new InMemoryMerchantRepository();
-        $action = new UpdateMerchant($repository);
+        $action = new UpdateMerchantAction($repository, new MerchantEntityMapper());
 
-        $data = new MerchantData(
-            id: 0,
+        $data = new UpdateMerchantData(
+            id: 999,
             name: 'Any',
             slug: 'any',
-            websiteUrl: 'https://example.com',
-            logoUrl: 'https://example.com/logo.png',
+            website_url: 'https://example.com',
+            logo_url: 'https://example.com/logo.png',
             status: 'active',
         );
 

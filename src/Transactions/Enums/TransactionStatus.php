@@ -1,6 +1,6 @@
 <?php
 
-namespace Cashback\Transactions;
+namespace Cashback\Transactions\Enums;
 
 enum TransactionStatus: string
 {

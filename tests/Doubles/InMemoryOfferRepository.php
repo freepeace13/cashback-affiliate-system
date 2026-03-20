@@ -4,8 +4,6 @@ namespace Cashback\Tests\Doubles;
 
 use Cashback\Offers\Entities\Offer;
 use Cashback\Offers\Repositories\OfferRepository;
-use Cashback\Offers\ValueObjects\MerchantID;
-use Cashback\Offers\ValueObjects\OfferID;
 use Cashback\Tests\Doubles\Mappers\OfferMapper;
 use Illuminate\Support\Collection;
 

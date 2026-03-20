@@ -2,10 +2,12 @@
 
 namespace Cashback\Tests\Offers;
 
-use Cashback\Offers\Actions\UpdateOffer;
+use Cashback\Offers\Actions\UpdateOfferAction;
+use Cashback\Offers\DTOs\Actions\UpdateOfferData;
 use Cashback\Offers\DTOs\OfferData;
 use Cashback\Offers\Entities\Offer;
 use Cashback\Offers\Enums\OfferStatus;
+use Cashback\Offers\Mappers\OfferEntityMapper;
 use Cashback\Tests\Doubles\InMemoryOfferRepository;
 use Cashback\Tests\TestCase;
 use RuntimeException;
@@ -33,10 +35,12 @@ final class UpdateOfferTest extends TestCase
 
         $created = $repository->create($existing);
 
-        $action = new UpdateOffer($repository);
+        $action = new UpdateOfferAction($repository, new OfferEntityMapper());
 
-        $data = new OfferData(
+        $data = new UpdateOfferData(
             id: $created->id(),
+            merchantId: 1,
+            affiliateNetworkId: 1,
             title: 'New Name',
             description: 'New description',
             trackingUrl: 'https://example.com/new',
@@ -48,7 +52,7 @@ final class UpdateOfferTest extends TestCase
 
         $returned = $action->update($data);
 
-        $this->assertSame(get_class($data), get_class($returned));
+        $this->assertInstanceOf(OfferData::class, $returned);
         $this->assertSame($data->title, $returned->title);
         $this->assertSame($data->description, $returned->description);
         $this->assertSame($data->trackingUrl, $returned->trackingUrl);
@@ -66,10 +70,12 @@ final class UpdateOfferTest extends TestCase
     public function test_it_throws_when_offer_not_found(): void
     {
         $repository = new InMemoryOfferRepository();
-        $action = new UpdateOffer($repository);
+        $action = new UpdateOfferAction($repository, new OfferEntityMapper());
 
-        $data = new OfferData(
-            id: 0,
+        $data = new UpdateOfferData(
+            id: 999,
+            merchantId: 1,
+            affiliateNetworkId: 1,
             title: 'Any',
             description: 'Any',
             trackingUrl: 'https://example.com',
