@@ -9,7 +9,7 @@
 - **Stay architecture-driven**: Align behavior and explanations with the documented architecture in `docs/architecture.md`, `docs/directory-structure.md`, and `docs/database-design.md`.
 - **Prefer domain language**: Use terms like *clicks*, *transactions*, *ledger entries*, *payout requests*, *affiliate networks*, and *offers* consistently.
 - **Keep it educational**: This repo is a learning/demo environment; favor clarity and explanation of trade-offs over aggressive optimization.
-- **Respect module boundaries**: When suggesting or editing code, keep logic inside the appropriate module (`Offers`, `Tracking`, `Transactions`, `Ledger`, `Payouts`, `Shared`) and use repository interfaces and shared contracts (under `Repositories/`) to cross boundaries.
+- **Respect module boundaries**: When suggesting or editing code, keep logic inside the appropriate module (`Offers`, `Tracking`, `Transactions`, `Ledger`, `Payouts`, `Shared`) and use repository interfaces (`Repositories/`), module ports (`Contracts/`), and shared ports (`src/Contracts/`, e.g. `EventBus`) to cross boundaries.
 - **Ledger-first thinking**: Any wallet-related change should preserve the append-only `ledger_entries` model and derive balances from it; avoid introducing mutable balance columns.
 
 ## Key Docs and Related Skills

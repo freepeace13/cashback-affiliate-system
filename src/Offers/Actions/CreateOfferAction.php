@@ -8,18 +8,19 @@ use Cashback\Offers\DTOs\OfferData;
 use Cashback\Offers\Entities\Offer;
 use Cashback\Offers\Enums\OfferStatus;
 use Cashback\Offers\Mappers\OfferEntityMapper;
-use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\Repositories\OfferCommandRepository;
+use Cashback\Offers\Services\OfferValidatedScheduleInput;
 
 class CreateOfferAction implements CreatesOfferActionContract
 {
     public function __construct(
-        private OfferRepository $offerRepository,
+        private OfferCommandRepository $offerCommands,
         private OfferEntityMapper $offerEntityMapper,
     ) {}
 
     public function create(CreateOfferData $data): OfferData
     {
-        $created = $this->offerRepository->create(
+        $created = $this->offerCommands->create(
             $this->createOfferEntity($data)
         );
 
@@ -29,6 +30,11 @@ class CreateOfferAction implements CreatesOfferActionContract
     protected function createOfferEntity(CreateOfferData $data): Offer
     {
         $validated = $data->validate();
+
+        $startsAt = OfferValidatedScheduleInput::optionalDateTime($validated, 'startsAt');
+        $endsAt = OfferValidatedScheduleInput::optionalDateTime($validated, 'endsAt');
+
+        Offer::ensureValidAvailabilityWindow($startsAt, $endsAt);
 
         return new Offer(
             id: -1,
@@ -41,6 +47,8 @@ class CreateOfferAction implements CreatesOfferActionContract
             cashbackValue: (float) $validated['cashbackValue'],
             currency: $validated['currency'],
             status: OfferStatus::from($validated['status'] !== '' ? $validated['status'] : 'active'),
+            startsAt: $startsAt,
+            endsAt: $endsAt,
         );
     }
 }

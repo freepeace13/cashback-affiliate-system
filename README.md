@@ -20,23 +20,19 @@ The goal is to **document the engineering behind the system step-by-step**.
 The project follows a **Hexagonal Architecture (Ports & Adapters)** with a **modular monolith** structure.
 
 ```
-Modules
-├── Offers
-├── Tracking
-├── Transactions
-├── Ledger
-├── Payouts
-└── Shared
+src/
+├── Offers/        merchants, offers, availability, cashback rules on offers
+├── Tracking/      clicks and attribution
+├── Transactions/  conversions and lifecycle (in progress)
+├── Ledger/        ledger entries and balances (in progress)
+├── Payouts/       payout requests (in progress)
+├── Shared/        cross-module value objects and contracts
+└── Contracts/     shared ports (e.g. event bus)
 ```
 
-Each module contains:
+Within each module, code is grouped **by kind** (`Actions/`, `Entities/`, `Queries/`, `Repositories/`, …), not by a separate Application/Domain folder tree. See [`docs/directory-structure.md`](docs/directory-structure.md) for the full layout.
 
-```
-Application/
-Domain/
-```
-
-This keeps business logic isolated from infrastructure and makes the system easier to evolve.
+Ports live under `Contracts/` (per module) or `src/Contracts/` when shared. Infrastructure adapters are expected to sit outside `src/` when you wire a real app.
 
 ---
 
@@ -57,6 +53,16 @@ tracked → pending → confirmed → reversed → paid
 **Ledger-Based Wallet**
 
 Balances are derived from immutable ledger entries rather than mutable wallet fields.
+
+---
+
+## Documentation
+
+- [`docs/architecture.md`](docs/architecture.md) — end-to-end flows and components
+- [`docs/directory-structure.md`](docs/directory-structure.md) — module layout and naming
+- [`docs/database-design.md`](docs/database-design.md) — conceptual schema
+
+Run tests: `composer test` or `./vendor/bin/phpunit`.
 
 ---
 

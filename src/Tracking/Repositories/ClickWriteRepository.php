@@ -4,7 +4,7 @@ namespace Cashback\Tracking\Repositories;
 
 use Cashback\Tracking\Entities\Click;
 
-interface ClickRepository
+interface ClickWriteRepository
 {
     public function find(string $id): ?Click;
 
@@ -26,4 +26,3 @@ interface ClickRepository
         ?string $ipAddress,
     ): void;
 }
-

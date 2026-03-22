@@ -3,21 +3,31 @@
 namespace Cashback\Offers\Actions;
 
 use Cashback\Offers\Contracts\Actions\AssignOfferMerchantAction as AssignOfferMerchantActionContract;
-use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\Exceptions\MerchantNotFound;
+use Cashback\Offers\Exceptions\OfferNotFound;
+use Cashback\Offers\Repositories\MerchantRepository;
+use Cashback\Offers\Repositories\OfferCommandRepository;
+use Cashback\Offers\Repositories\OfferQueryRepository;
 
 class AssignOfferMerchantAction implements AssignOfferMerchantActionContract
 {
     public function __construct(
-        private OfferRepository $offerRepository,
+        private OfferQueryRepository $offerQueries,
+        private OfferCommandRepository $offerCommands,
+        private MerchantRepository $merchantRepository,
     ) {}
 
     public function assign(int $offerId, int $merchantId): void
     {
-        // This demo repository interface doesn't yet expose an explicit method
-        // to update the merchant association. Implementations are expected to
-        // interpret this as part of offer persistence for now.
-        //
-        // For clarity in the architecture demo, we keep this as a no-op and
-        // leave the concrete repository free to implement the association.
+        $offer = $this->offerQueries->find($offerId);
+        if ($offer === null) {
+            throw new OfferNotFound("Offer {$offerId} not found");
+        }
+
+        if ($this->merchantRepository->find($merchantId) === null) {
+            throw new MerchantNotFound("Merchant {$merchantId} not found");
+        }
+
+        $this->offerCommands->update($offer->withMerchantId($merchantId));
     }
 }

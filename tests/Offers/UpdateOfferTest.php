@@ -7,10 +7,10 @@ use Cashback\Offers\DTOs\Actions\UpdateOfferData;
 use Cashback\Offers\DTOs\OfferData;
 use Cashback\Offers\Entities\Offer;
 use Cashback\Offers\Enums\OfferStatus;
+use Cashback\Offers\Exceptions\OfferNotFound;
 use Cashback\Offers\Mappers\OfferEntityMapper;
 use Cashback\Tests\Doubles\InMemoryOfferRepository;
 use Cashback\Tests\TestCase;
-use RuntimeException;
 
 final class UpdateOfferTest extends TestCase
 {
@@ -35,7 +35,7 @@ final class UpdateOfferTest extends TestCase
 
         $created = $repository->create($existing);
 
-        $action = new UpdateOfferAction($repository, new OfferEntityMapper());
+        $action = new UpdateOfferAction($repository, $repository, new OfferEntityMapper());
 
         $data = new UpdateOfferData(
             id: $created->id(),
@@ -67,10 +67,56 @@ final class UpdateOfferTest extends TestCase
         $this->assertSame($data->title, $stored->title());
     }
 
+    public function test_partial_update_preserves_schedule_when_dates_omitted(): void
+    {
+        $repository = new InMemoryOfferRepository();
+
+        $existing = new Offer(
+            id: 1,
+            merchantId: 1,
+            affiliateNetworkId: 1,
+            title: 'Old Name',
+            description: 'Old description',
+            trackingUrl: 'https://example.com/old',
+            cashbackType: 'percentage',
+            cashbackValue: 1.0,
+            currency: 'USD',
+            status: OfferStatus::ACTIVE,
+            startsAt: new \DateTimeImmutable('2024-03-01T00:00:00Z'),
+            endsAt: new \DateTimeImmutable('2024-09-01T00:00:00Z'),
+        );
+
+        $created = $repository->create($existing);
+
+        $action = new UpdateOfferAction($repository, $repository, new OfferEntityMapper());
+
+        $data = new UpdateOfferData(
+            id: $created->id(),
+            merchantId: 1,
+            affiliateNetworkId: 1,
+            title: 'New Name',
+            description: 'New description',
+            trackingUrl: 'https://example.com/new',
+            cashbackType: 'percentage',
+            cashbackValue: '5',
+            currency: 'USD',
+            status: 'active',
+            startsAt: null,
+            endsAt: null,
+        );
+
+        $action->update($data);
+
+        $stored = $repository->find($created->id());
+        $this->assertNotNull($stored);
+        $this->assertEquals(new \DateTimeImmutable('2024-03-01T00:00:00Z'), $stored->startsAt());
+        $this->assertEquals(new \DateTimeImmutable('2024-09-01T00:00:00Z'), $stored->endsAt());
+    }
+
     public function test_it_throws_when_offer_not_found(): void
     {
         $repository = new InMemoryOfferRepository();
-        $action = new UpdateOfferAction($repository, new OfferEntityMapper());
+        $action = new UpdateOfferAction($repository, $repository, new OfferEntityMapper());
 
         $data = new UpdateOfferData(
             id: 999,
@@ -85,7 +131,7 @@ final class UpdateOfferTest extends TestCase
             status: 'active',
         );
 
-        $this->expectException(RuntimeException::class);
+        $this->expectException(OfferNotFound::class);
         $this->expectExceptionMessage('Offer not found for update');
 
         $action->update($data);

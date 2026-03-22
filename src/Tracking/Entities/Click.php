@@ -67,4 +67,19 @@ final class Click
     {
         return $this->userId !== null;
     }
+
+    public function withId(string $id): self
+    {
+        return new self(
+            id: $id,
+            clickRef: $this->clickRef,
+            userId: $this->userId,
+            merchantId: $this->merchantId,
+            offerId: $this->offerId,
+            affiliateNetworkId: $this->affiliateNetworkId,
+            destinationUrl: $this->destinationUrl,
+            trackingUrl: $this->trackingUrl,
+            clickedAt: $this->clickedAt,
+        );
+    }
 }

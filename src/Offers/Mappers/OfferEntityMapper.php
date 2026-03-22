@@ -2,10 +2,11 @@
 
 namespace Cashback\Offers\Mappers;
 
-use Cashback\Offers\Entities\Offer;
 use Cashback\Offers\DTOs\OfferCashbackRuleData;
 use Cashback\Offers\DTOs\OfferData;
+use Cashback\Offers\Entities\Offer;
 use Cashback\Offers\Enums\OfferStatus;
+use Cashback\Offers\Services\OfferValidatedScheduleInput;
 
 class OfferEntityMapper
 {
@@ -22,6 +23,8 @@ class OfferEntityMapper
             cashbackValue: (float) $data->cashbackValue,
             currency: $data->currency,
             status: OfferStatus::from($data->status),
+            startsAt: $data->startsAt,
+            endsAt: $data->endsAt,
         );
     }
 
@@ -38,6 +41,8 @@ class OfferEntityMapper
             cashbackValue: (string) $entity->cashbackValue(),
             currency: $entity->currency(),
             status: $entity->status()->value,
+            startsAt: $entity->startsAt(),
+            endsAt: $entity->endsAt(),
         );
     }
 
@@ -53,7 +58,7 @@ class OfferEntityMapper
     /**
      * @param  array<string, mixed>  $validated  Output of {@see UpdateOfferData::validate()}
      */
-    public function mapValidatedUpdateToData(array $validated): OfferData
+    public function mapValidatedUpdateToData(array $validated, Offer $existing): OfferData
     {
         $status = ($validated['status'] ?? '') !== '' ? $validated['status'] : 'active';
 
@@ -68,6 +73,8 @@ class OfferEntityMapper
             status: $status,
             merchantId: (int) $validated['merchantId'],
             affiliateNetworkId: (int) $validated['affiliateNetworkId'],
+            startsAt: OfferValidatedScheduleInput::optionalDateTimeOrKeepExisting($validated, 'startsAt', $existing->startsAt()),
+            endsAt: OfferValidatedScheduleInput::optionalDateTimeOrKeepExisting($validated, 'endsAt', $existing->endsAt()),
         );
     }
 }

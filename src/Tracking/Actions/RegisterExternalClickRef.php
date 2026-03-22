@@ -2,21 +2,21 @@
 
 namespace Cashback\Tracking\Actions;
 
-use Cashback\Tracking\Contracts\RegistersExternalClickRefAction;
-use Cashback\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\Actions\RegistersExternalClickRefAction as RegistersExternalClickRefContract;
+use Cashback\Tracking\Repositories\ClickWriteRepository;
+use Cashback\Tracking\DTOs\Actions\RegisterExternalClickRefData;
 
 /**
  * Registers the network-provided click identifier for an internal click.
  */
-class RegisterExternalClickRef implements RegistersExternalClickRefAction
+class RegisterExternalClickRef implements RegistersExternalClickRefContract
 {
     public function __construct(
-        private ClickRepository $clickRepository,
+        private ClickWriteRepository $clicksWriteRepository,
     ) {}
 
-    public function register(string $clickRef, string $externalClickRef): void
+    public function register(RegisterExternalClickRefData $data): void
     {
-        $this->clickRepository->registerExternalRef($clickRef, $externalClickRef);
+        $this->clicksWriteRepository->registerExternalRef($data->clickRef, $data->externalClickRef);
     }
 }
-

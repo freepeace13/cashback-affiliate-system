@@ -4,17 +4,17 @@ namespace Cashback\Offers\Queries;
 
 use Cashback\Offers\Contracts\Queries\GetOfferTrackingDestinationQueryHandler;
 use Cashback\Offers\DTOs\Queries\GetOfferTrackingDestinationQuery;
-use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\Repositories\OfferQueryRepository;
 
 class GetOfferTrackingDestinationHandler implements GetOfferTrackingDestinationQueryHandler
 {
     public function __construct(
-        private OfferRepository $offerRepository,
+        private OfferQueryRepository $offerQueries,
     ) {}
 
     public function handle(GetOfferTrackingDestinationQuery $query): ?string
     {
-        $offer = $this->offerRepository->find($query->offerId);
+        $offer = $this->offerQueries->find($query->offerId);
 
         if ($offer === null) {
             return null;

@@ -1,6 +1,8 @@
 <?php
 
-namespace Cashback\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts\Actions;
+
+use Cashback\Tracking\DTOs\Actions\AttachUserToClickData;
 
 /**
  * Handles the case where a click was created before the user logged in.
@@ -17,5 +19,5 @@ namespace Cashback\Tracking\Contracts;
  */
 interface AttachesUserToClickAction
 {
-    public function attach(string $clickRef, string $userId): void;
+    public function attach(AttachUserToClickData $data): void;
 }

@@ -23,18 +23,21 @@ final class InMemoryOfferRepository implements OfferRepository
         ));
     }
 
-    public function listAvailableOffers(): array
+    public function listAvailableOffers(\DateTimeImmutable $asOf): array
     {
-        return $this->mapToDomain($this->offers->filter(
-            function (array $row) {
-                return $row['starts_at'] <= new \DateTimeImmutable() && $row['ends_at'] >= new \DateTimeImmutable();
-            }
+        $active = $this->listActiveOffers();
+
+        return array_values(array_filter(
+            $active,
+            fn (Offer $offer) => $offer->isAvailable($asOf)
         ));
     }
 
-    public function listOffersByAffiliateNetwork(): array
+    public function listOffersByAffiliateNetwork(int $affiliateNetworkId): array
     {
-        return $this->mapToDomain($this->offers);
+        return $this->mapToDomain($this->offers->filter(
+            fn (array $row) => (int) $row['affiliate_network_id'] === $affiliateNetworkId
+        ));
     }
 
     protected function mapToDomain(Collection $rows): array
@@ -44,7 +47,7 @@ final class InMemoryOfferRepository implements OfferRepository
         )->values()->all();
     }
 
-    public function listMerchantOffers($merchantId): array
+    public function listMerchantOffers(int $merchantId): array
     {
         return $this->mapToDomain($this->offers->filter(
             fn(array $row) => $row['merchant_id'] === $merchantId
@@ -67,7 +70,7 @@ final class InMemoryOfferRepository implements OfferRepository
         return OfferMapper::toDomain($created);
     }
 
-    public function find($id): ?Offer
+    public function find(int|string $id): ?Offer
     {
         $row = $this->offers->first(
             fn(array $row) => (string) $row['id'] === (string) $id

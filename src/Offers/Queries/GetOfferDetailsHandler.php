@@ -6,12 +6,12 @@ use Cashback\Offers\Contracts\Queries\GetOfferDetailsQueryHandler;
 use Cashback\Offers\DTOs\OfferData;
 use Cashback\Offers\DTOs\Queries\GetOfferDetailsQuery;
 use Cashback\Offers\Mappers\OfferEntityMapper;
-use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\Repositories\OfferQueryRepository;
 
 class GetOfferDetailsHandler implements GetOfferDetailsQueryHandler
 {
     public function __construct(
-        private OfferRepository $offerRepository,
+        private OfferQueryRepository $offerQueries,
         private OfferEntityMapper $offerEntityMapper,
     ) {}
 
@@ -23,7 +23,7 @@ class GetOfferDetailsHandler implements GetOfferDetailsQueryHandler
             return null;
         }
 
-        $offer = $this->offerRepository->find((int) $identifier);
+        $offer = $this->offerQueries->find((int) $identifier);
 
         if ($offer === null) {
             return null;

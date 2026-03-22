@@ -18,6 +18,8 @@ class UpdateOfferData extends ActionData
         public string $cashbackValue,
         public string $currency,
         public string $status,
+        public ?string $startsAt = null,
+        public ?string $endsAt = null,
     ) {}
 
     public function rules(): array
@@ -33,6 +35,8 @@ class UpdateOfferData extends ActionData
             'cashbackValue' => ['required', 'numeric', 'min:0'],
             'currency' => ['required', 'string', 'max:255'],
             'status' => ['nullable', 'string', Rule::in(['active', 'inactive'])],
+            'startsAt' => ['nullable', 'string', 'date'],
+            'endsAt' => ['nullable', 'string', 'date'],
         ];
     }
 }

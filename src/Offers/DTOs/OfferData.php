@@ -2,6 +2,8 @@
 
 namespace Cashback\Offers\DTOs;
 
+use DateTimeImmutable;
+
 final class OfferData
 {
     public function __construct(
@@ -15,5 +17,7 @@ final class OfferData
         public readonly string $status,
         public readonly int $merchantId = 0,
         public readonly int $affiliateNetworkId = 0,
+        public readonly ?DateTimeImmutable $startsAt = null,
+        public readonly ?DateTimeImmutable $endsAt = null,
     ) {}
 }

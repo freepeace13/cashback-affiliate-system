@@ -1,6 +1,8 @@
 <?php
 
-namespace Cashback\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts\Actions;
+
+use Cashback\Tracking\DTOs\Actions\UpdateClickMetadataData;
 
 /**
  * Allows enrichment of click metadata after creation.
@@ -18,5 +20,5 @@ interface UpdatesClickMetadataAction
     /**
      * @param array<string,mixed> $metadata Partial metadata to merge into the click.
      */
-    public function update(string $clickRef, array $metadata): void;
+    public function update(UpdateClickMetadataData $data): void;
 }

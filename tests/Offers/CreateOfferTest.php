@@ -45,4 +45,31 @@ final class CreateOfferTest extends TestCase
         $this->assertSame($data->merchantId, $created->merchantId());
         $this->assertSame($data->affiliateNetworkId, $created->affiliateNetworkId());
     }
+
+    public function test_it_persists_optional_availability_window(): void
+    {
+        $repository = new InMemoryOfferRepository();
+        $action = new CreateOfferAction($repository, new OfferEntityMapper());
+
+        $data = new CreateOfferData(
+            title: 'Scheduled',
+            description: null,
+            trackingUrl: 'https://example.com/track',
+            cashbackType: 'percentage',
+            cashbackValue: '3',
+            currency: 'USD',
+            status: 'active',
+            merchantId: 1,
+            affiliateNetworkId: 1,
+            startsAt: '2024-01-01',
+            endsAt: '2024-12-31',
+        );
+
+        $action->create($data);
+
+        $offers = $repository->listActiveOffers();
+        $this->assertCount(1, $offers);
+        $this->assertNotNull($offers[0]->startsAt());
+        $this->assertNotNull($offers[0]->endsAt());
+    }
 }

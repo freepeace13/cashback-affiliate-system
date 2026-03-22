@@ -2,21 +2,9 @@
 
 namespace Cashback\Offers\Repositories;
 
-use Cashback\Offers\Entities\Offer;
-
-interface OfferRepository
+/**
+ * Full offer persistence contract for adapters that implement both reads and writes.
+ */
+interface OfferRepository extends OfferQueryRepository, OfferCommandRepository
 {
-    public function listActiveOffers(): array;
-
-    public function listAvailableOffers(): array;
-
-    public function listOffersByAffiliateNetwork();
-
-    public function listMerchantOffers($merchantId): array;
-
-    public function create(Offer $offer): Offer;
-
-    public function find($id): ?Offer;
-
-    public function update(Offer $offer): void;
 }

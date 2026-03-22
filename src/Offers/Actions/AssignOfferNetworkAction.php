@@ -3,18 +3,24 @@
 namespace Cashback\Offers\Actions;
 
 use Cashback\Offers\Contracts\Actions\AssignOfferNetworkAction as AssignOfferNetworkActionContract;
-use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\Exceptions\OfferNotFound;
+use Cashback\Offers\Repositories\OfferCommandRepository;
+use Cashback\Offers\Repositories\OfferQueryRepository;
 
 class AssignOfferNetworkAction implements AssignOfferNetworkActionContract
 {
     public function __construct(
-        private OfferRepository $offerRepository,
+        private OfferQueryRepository $offerQueries,
+        private OfferCommandRepository $offerCommands,
     ) {}
 
     public function assign(int $offerId, int $networkId): void
     {
-        // Similar to AssignOfferMerchant, this action documents the intent of
-        // associating an offer to a network. The concrete infrastructure
-        // repository can choose how this is persisted.
+        $offer = $this->offerQueries->find($offerId);
+        if ($offer === null) {
+            throw new OfferNotFound("Offer {$offerId} not found");
+        }
+
+        $this->offerCommands->update($offer->withAffiliateNetworkId($networkId));
     }
 }

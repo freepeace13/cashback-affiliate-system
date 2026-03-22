@@ -121,7 +121,16 @@ Internal events (e.g. ClickCreated, ConversionReceived, TransactionTracked, Tran
 
 ---
 
-## 7. Conceptual Diagram
+## 7. Code organization (this repository)
+
+- **Modular monolith**: domain code under `src/<Module>/` with a **flat, kind-based** layout (`Actions/`, `Entities/`, `Queries/`, …). There is no `Application/` vs `Domain/` directory split; see [`directory-structure.md`](directory-structure.md).
+- **Ports**: caller-facing interfaces live under each module’s `Contracts/` (`Contracts/Actions/`, `Contracts/Queries/`). Shared ports that are not module-specific (for example `EventBus`) live under `src/Contracts/`.
+- **Persistence**: some modules split **reads and writes** into separate repository interfaces (Offers: `OfferQueryRepository` / `OfferCommandRepository`; Tracking: `ClickReadRepository` / `ClickWriteRepository`). Adapters can implement one side, both, or a composing interface such as `OfferRepository`.
+- **Tests**: `tests/` mirrors usage with in-memory repository doubles and focused unit tests; a full end-to-end integration suite is not wired yet.
+
+---
+
+## 8. Conceptual Diagram
 
 ```
                 ┌─────────────────┐

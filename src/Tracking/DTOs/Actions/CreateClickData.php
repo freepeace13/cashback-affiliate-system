@@ -1,6 +1,6 @@
 <?php
 
-namespace Cashback\Tracking\DTOs;
+namespace Cashback\Tracking\DTOs\Actions;
 
 final class CreateClickData
 {

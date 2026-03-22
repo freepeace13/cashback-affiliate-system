@@ -2,30 +2,26 @@
 
 namespace Cashback\Tracking\Actions;
 
-use Cashback\Tracking\Contracts\UpdatesClickTrackingInfoAction;
-use Cashback\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\Actions\UpdatesClickTrackingInfoAction as UpdatesClickTrackingInfoContract;
+use Cashback\Tracking\DTOs\Actions\UpdateClickTrackingInfoData;
+use Cashback\Tracking\Repositories\ClickWriteRepository;
 
 /**
  * Updates device or request tracking information for a click.
  */
-class UpdateClickTrackingInfo implements UpdatesClickTrackingInfoAction
+class UpdateClickTrackingInfo implements UpdatesClickTrackingInfoContract
 {
     public function __construct(
-        private ClickRepository $clickRepository,
+        private ClickWriteRepository $clicksWriteRepository,
     ) {}
 
-    public function updateTrackingInfo(
-        string $clickRef,
-        ?string $deviceType,
-        ?string $userAgent,
-        ?string $ipAddress,
-    ): void {
-        $this->clickRepository->updateTrackingInfo(
-            $clickRef,
-            $deviceType,
-            $userAgent,
-            $ipAddress,
+    public function updateTrackingInfo(UpdateClickTrackingInfoData $data): void
+    {
+        $this->clicksWriteRepository->updateTrackingInfo(
+            $data->clickRef,
+            $data->deviceType,
+            $data->userAgent,
+            $data->ipAddress,
         );
     }
 }
-

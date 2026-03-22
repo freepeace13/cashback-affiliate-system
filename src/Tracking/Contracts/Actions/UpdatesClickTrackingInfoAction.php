@@ -1,6 +1,8 @@
 <?php
 
-namespace Cashback\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts\Actions;
+
+use Cashback\Tracking\DTOs\Actions\UpdateClickTrackingInfoData;
 
 /**
  * Updates device or request details for a click if needed.
@@ -14,10 +16,5 @@ namespace Cashback\Tracking\Contracts;
  */
 interface UpdatesClickTrackingInfoAction
 {
-    public function updateTrackingInfo(
-        string $clickRef,
-        ?string $deviceType,
-        ?string $userAgent,
-        ?string $ipAddress,
-    ): void;
+    public function updateTrackingInfo(UpdateClickTrackingInfoData $data): void;
 }

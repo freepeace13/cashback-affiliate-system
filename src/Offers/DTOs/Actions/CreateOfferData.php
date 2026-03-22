@@ -16,6 +16,8 @@ class CreateOfferData extends ActionData
         public string $status,
         public int $merchantId,
         public int $affiliateNetworkId,
+        public ?string $startsAt = null,
+        public ?string $endsAt = null,
     ) {}
 
     public function rules(): array
@@ -30,6 +32,8 @@ class CreateOfferData extends ActionData
             'status' => ['required', 'string', 'max:255'],
             'merchantId' => ['required', 'integer', 'min:1'],
             'affiliateNetworkId' => ['required', 'integer', 'min:1'],
+            'startsAt' => ['nullable', 'string', 'date'],
+            'endsAt' => ['nullable', 'string', 'date'],
         ];
     }
 }

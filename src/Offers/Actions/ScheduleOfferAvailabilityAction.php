@@ -3,13 +3,18 @@
 namespace Cashback\Offers\Actions;
 
 use Cashback\Offers\Contracts\Actions\SchedulesOffersAvailabilityAction;
-use Cashback\Offers\Repositories\OfferRepository;
+use Cashback\Offers\Entities\Offer;
+use Cashback\Offers\Exceptions\OfferNotFound;
+use Cashback\Offers\Repositories\OfferCommandRepository;
+use Cashback\Offers\Repositories\OfferQueryRepository;
+use Cashback\Offers\Services\DateTimeToImmutable;
 use DateTimeInterface;
 
 class ScheduleOfferAvailabilityAction implements SchedulesOffersAvailabilityAction
 {
     public function __construct(
-        private OfferRepository $offerRepository,
+        private OfferQueryRepository $offerQueries,
+        private OfferCommandRepository $offerCommands,
     ) {}
 
     public function schedule(
@@ -17,8 +22,16 @@ class ScheduleOfferAvailabilityAction implements SchedulesOffersAvailabilityActi
         DateTimeInterface $startDate,
         DateTimeInterface $endDate,
     ): void {
-        // This action is intentionally left as an architectural placeholder.
-        // A real implementation would likely adjust status/validity windows
-        // and rely on infrastructure to persist and enforce them.
+        $offer = $this->offerQueries->find($offerId);
+        if ($offer === null) {
+            throw new OfferNotFound("Offer {$offerId} not found");
+        }
+
+        $start = DateTimeToImmutable::convert($startDate);
+        $end = DateTimeToImmutable::convert($endDate);
+
+        Offer::ensureValidAvailabilityWindow($start, $end);
+
+        $this->offerCommands->update($offer->withSchedule($start, $end));
     }
 }

@@ -4,6 +4,7 @@ namespace Cashback\Offers\Entities;
 
 use Cashback\Offers\Enums\OfferStatus;
 use DateTimeImmutable;
+use InvalidArgumentException;
 
 final class Offer
 {
@@ -95,5 +96,71 @@ final class Offer
         }
 
         return true;
+    }
+
+    /**
+     * Invariant when both bounds are set: end must be strictly after start.
+     */
+    public static function ensureValidAvailabilityWindow(
+        ?DateTimeImmutable $startsAt,
+        ?DateTimeImmutable $endsAt,
+    ): void {
+        if ($startsAt !== null && $endsAt !== null && $endsAt <= $startsAt) {
+            throw new InvalidArgumentException('Offer availability end must be after start');
+        }
+    }
+
+    public function withMerchantId(int $merchantId): self
+    {
+        return new self(
+            id: $this->id,
+            merchantId: $merchantId,
+            affiliateNetworkId: $this->affiliateNetworkId,
+            title: $this->title,
+            description: $this->description,
+            trackingUrl: $this->trackingUrl,
+            cashbackType: $this->cashbackType,
+            cashbackValue: $this->cashbackValue,
+            currency: $this->currency,
+            status: $this->status,
+            startsAt: $this->startsAt,
+            endsAt: $this->endsAt,
+        );
+    }
+
+    public function withAffiliateNetworkId(int $affiliateNetworkId): self
+    {
+        return new self(
+            id: $this->id,
+            merchantId: $this->merchantId,
+            affiliateNetworkId: $affiliateNetworkId,
+            title: $this->title,
+            description: $this->description,
+            trackingUrl: $this->trackingUrl,
+            cashbackType: $this->cashbackType,
+            cashbackValue: $this->cashbackValue,
+            currency: $this->currency,
+            status: $this->status,
+            startsAt: $this->startsAt,
+            endsAt: $this->endsAt,
+        );
+    }
+
+    public function withSchedule(?DateTimeImmutable $startsAt, ?DateTimeImmutable $endsAt): self
+    {
+        return new self(
+            id: $this->id,
+            merchantId: $this->merchantId,
+            affiliateNetworkId: $this->affiliateNetworkId,
+            title: $this->title,
+            description: $this->description,
+            trackingUrl: $this->trackingUrl,
+            cashbackType: $this->cashbackType,
+            cashbackValue: $this->cashbackValue,
+            currency: $this->currency,
+            status: $this->status,
+            startsAt: $startsAt,
+            endsAt: $endsAt,
+        );
     }
 }

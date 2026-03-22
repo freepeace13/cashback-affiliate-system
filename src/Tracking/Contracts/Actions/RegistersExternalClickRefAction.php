@@ -1,6 +1,8 @@
 <?php
 
-namespace Cashback\Tracking\Contracts;
+namespace Cashback\Tracking\Contracts\Actions;
+
+use Cashback\Tracking\DTOs\Actions\RegisterExternalClickRefData;
 
 /**
  * Stores the network-provided click identifier alongside the internal click.
@@ -16,5 +18,5 @@ namespace Cashback\Tracking\Contracts;
  */
 interface RegistersExternalClickRefAction
 {
-    public function register(string $clickRef, string $externalClickRef): void;
+    public function register(RegisterExternalClickRefData $data): void;
 }

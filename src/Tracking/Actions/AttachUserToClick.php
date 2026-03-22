@@ -2,21 +2,21 @@
 
 namespace Cashback\Tracking\Actions;
 
-use Cashback\Tracking\Contracts\AttachesUserToClickAction;
-use Cashback\Tracking\Repositories\ClickRepository;
+use Cashback\Tracking\Contracts\Actions\AttachesUserToClickAction as AttachesUserToClickContract;
+use Cashback\Tracking\Repositories\ClickWriteRepository;
+use Cashback\Tracking\DTOs\Actions\AttachUserToClickData;
 
 /**
  * Attaches a logged-in user to an existing click created before login.
  */
-class AttachUserToClick implements AttachesUserToClickAction
+class AttachUserToClick implements AttachesUserToClickContract
 {
     public function __construct(
-        private ClickRepository $clickRepository,
+        private ClickWriteRepository $clicksWriteRepository,
     ) {}
 
-    public function attach(string $clickRef, string $userId): void
+    public function attach(AttachUserToClickData $data): void
     {
-        $this->clickRepository->attachUser($clickRef, $userId);
+        $this->clicksWriteRepository->attachUser($data->clickRef, $data->userId);
     }
 }
-
