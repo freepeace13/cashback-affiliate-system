@@ -43,6 +43,8 @@ Attribution: on offer click the system creates a unique click ID, stores it, red
 
 Stored: `click_id`, `user_id`, `merchant_id`, `offer_id`, `affiliate_network_id`, outbound URL, timestamp, IP/user agent, device/session metadata, optional subid/tracking params.
 
+Feature reference: [`docs/features/offer-click-url-and-tracking-flow.md`](features/offer-click-url-and-tracking-flow.md).
+
 ### D. Affiliate Network / Merchant Integration
 
 The platform does not track the final sale; it relies on networks, merchant APIs, postbacks, batch reports, webhooks. This layer normalizes external payloads into an internal conversion event:

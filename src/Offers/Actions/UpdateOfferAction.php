@@ -19,26 +19,23 @@ class UpdateOfferAction implements UpdatesOfferActionContract
         private OfferEntityMapper $offerEntityMapper,
     ) {}
 
-    public function update(UpdateOfferData $data): OfferData
+    public function update(int $offerId, UpdateOfferData $data): OfferData
     {
-        $validated = $data->validate();
-        $id = (int) $validated['id'];
-
-        $existing = $this->offerQueries->find($id);
-        if ($existing === null) {
+        $offer = $this->offerQueries->find($offerId);
+        if ($offer === null) {
             throw new OfferNotFound('Offer not found for update');
         }
 
-        $offerData = $this->offerEntityMapper->mapValidatedUpdateToData($validated, $existing);
+        $validated = $data->validate();
 
-        Offer::ensureValidAvailabilityWindow($offerData->startsAt, $offerData->endsAt);
+        $offer->withTitle($validated['title']);
+        $offer->withDescription($validated['description']);
+        $offer->withTrackingUrl($validated['trackingUrl']);
+        $offer->withCashbackType($validated['cashbackType']);
+        $offer->withCashbackValue($validated['cashbackValue']);
 
-        $this->offerCommands->update(
-            $this->offerEntityMapper->mapDataToEntity($offerData)
-        );
+        $this->offerCommands->update($offer);
 
-        $fresh = $this->offerQueries->find($id);
-
-        return $this->offerEntityMapper->mapEntityToData($fresh);
+        return $this->offerEntityMapper->mapEntityToData($offer);
     }
 }

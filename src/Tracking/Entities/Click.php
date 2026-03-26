@@ -7,15 +7,15 @@ use DateTimeImmutable;
 final class Click
 {
     public function __construct(
-        private string $id,
-        private string $clickRef,
-        private ?string $userId,
-        private int $merchantId,
-        private ?int $offerId,
-        private int $affiliateNetworkId,
-        private string $destinationUrl,
-        private string $trackingUrl,
-        private DateTimeImmutable $clickedAt,
+        protected string $id,
+        protected string $clickRef,
+        protected ?string $userId,
+        protected int $merchantId,
+        protected ?int $offerId,
+        protected int $affiliateNetworkId,
+        protected string $destinationUrl,
+        protected string $trackingUrl,
+        protected DateTimeImmutable $clickedAt,
     ) {}
 
     public function id(): string

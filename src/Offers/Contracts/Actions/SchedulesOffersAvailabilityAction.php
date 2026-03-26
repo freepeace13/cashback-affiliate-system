@@ -2,13 +2,9 @@
 
 namespace Cashback\Offers\Contracts\Actions;
 
-use DateTimeInterface;
+use Cashback\Offers\Value\DateRange;
 
 interface SchedulesOffersAvailabilityAction
 {
-    public function schedule(
-        int $offerId,
-        DateTimeInterface $startDate,
-        DateTimeInterface $endDate,
-    ): void;
+    public function schedule(int $offerId, DateRange $schedule): void;
 }

@@ -8,6 +8,7 @@ use Cashback\Offers\Exceptions\OfferNotFound;
 use Cashback\Offers\Repositories\OfferCommandRepository;
 use Cashback\Offers\Repositories\OfferQueryRepository;
 use Cashback\Offers\Services\DateTimeToImmutable;
+use Cashback\Offers\Value\DateRange;
 use DateTimeInterface;
 
 class ScheduleOfferAvailabilityAction implements SchedulesOffersAvailabilityAction
@@ -17,21 +18,15 @@ class ScheduleOfferAvailabilityAction implements SchedulesOffersAvailabilityActi
         private OfferCommandRepository $offerCommands,
     ) {}
 
-    public function schedule(
-        int $offerId,
-        DateTimeInterface $startDate,
-        DateTimeInterface $endDate,
-    ): void {
+    public function schedule(int $offerId, DateRange $schedule): void
+    {
         $offer = $this->offerQueries->find($offerId);
         if ($offer === null) {
             throw new OfferNotFound("Offer {$offerId} not found");
         }
 
-        $start = DateTimeToImmutable::convert($startDate);
-        $end = DateTimeToImmutable::convert($endDate);
-
-        Offer::ensureValidAvailabilityWindow($start, $end);
-
-        $this->offerCommands->update($offer->withSchedule($start, $end));
+        $this->offerCommands->update(
+            $offer->withSchedule($schedule->startsAt(), $schedule->endsAt())
+        );
     }
 }

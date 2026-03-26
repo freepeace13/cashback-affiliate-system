@@ -7,5 +7,5 @@ use Cashback\Offers\DTOs\OfferData;
 
 interface UpdatesOfferAction
 {
-    public function update(UpdateOfferData $data): OfferData;
+    public function update(int $offerId, UpdateOfferData $data): OfferData;
 }

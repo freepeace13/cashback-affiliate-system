@@ -9,18 +9,18 @@ use InvalidArgumentException;
 final class Offer
 {
     public function __construct(
-        private readonly int $id,
-        private readonly int $merchantId,
-        private readonly int $affiliateNetworkId,
-        private readonly string $title,
-        private readonly ?string $description,
-        private readonly string $trackingUrl,
-        private readonly string $cashbackType,
-        private readonly float $cashbackValue,
-        private readonly string $currency,
-        private readonly OfferStatus $status,
-        private readonly ?DateTimeImmutable $startsAt = null,
-        private readonly ?DateTimeImmutable $endsAt = null,
+        protected int $id,
+        protected int $merchantId,
+        protected int $affiliateNetworkId,
+        protected string $title,
+        protected ?string $description,
+        protected string $trackingUrl,
+        protected string $cashbackType,
+        protected float $cashbackValue,
+        protected string $currency,
+        protected OfferStatus $status,
+        protected ?DateTimeImmutable $startsAt = null,
+        protected ?DateTimeImmutable $endsAt = null,
     ) {}
 
     public function id(): int
@@ -43,6 +43,20 @@ final class Offer
         return $this->title;
     }
 
+    public function withTitle(string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function withDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
     public function description(): ?string
     {
         return $this->description;
@@ -53,14 +67,35 @@ final class Offer
         return $this->trackingUrl;
     }
 
+    public function withTrackingUrl(string $trackingUrl): self
+    {
+        $this->trackingUrl = $trackingUrl;
+
+        return $this;
+    }
+
     public function cashbackType(): string
     {
         return $this->cashbackType;
     }
 
+    public function withCashbackType(string $cashbackType): self
+    {
+        $this->cashbackType = $cashbackType;
+
+        return $this;
+    }
+
     public function cashbackValue(): float
     {
         return $this->cashbackValue;
+    }
+
+    public function withCashbackValue(float $cashbackValue): self
+    {
+        $this->cashbackValue = $cashbackValue;
+
+        return $this;
     }
 
     public function currency(): string
@@ -112,55 +147,25 @@ final class Offer
 
     public function withMerchantId(int $merchantId): self
     {
-        return new self(
-            id: $this->id,
-            merchantId: $merchantId,
-            affiliateNetworkId: $this->affiliateNetworkId,
-            title: $this->title,
-            description: $this->description,
-            trackingUrl: $this->trackingUrl,
-            cashbackType: $this->cashbackType,
-            cashbackValue: $this->cashbackValue,
-            currency: $this->currency,
-            status: $this->status,
-            startsAt: $this->startsAt,
-            endsAt: $this->endsAt,
-        );
+        $this->merchantId = $merchantId;
+
+        return $this;
     }
 
     public function withAffiliateNetworkId(int $affiliateNetworkId): self
     {
-        return new self(
-            id: $this->id,
-            merchantId: $this->merchantId,
-            affiliateNetworkId: $affiliateNetworkId,
-            title: $this->title,
-            description: $this->description,
-            trackingUrl: $this->trackingUrl,
-            cashbackType: $this->cashbackType,
-            cashbackValue: $this->cashbackValue,
-            currency: $this->currency,
-            status: $this->status,
-            startsAt: $this->startsAt,
-            endsAt: $this->endsAt,
-        );
+        $this->affiliateNetworkId = $affiliateNetworkId;
+
+        return $this;
     }
 
     public function withSchedule(?DateTimeImmutable $startsAt, ?DateTimeImmutable $endsAt): self
     {
-        return new self(
-            id: $this->id,
-            merchantId: $this->merchantId,
-            affiliateNetworkId: $this->affiliateNetworkId,
-            title: $this->title,
-            description: $this->description,
-            trackingUrl: $this->trackingUrl,
-            cashbackType: $this->cashbackType,
-            cashbackValue: $this->cashbackValue,
-            currency: $this->currency,
-            status: $this->status,
-            startsAt: $startsAt,
-            endsAt: $endsAt,
-        );
+        self::ensureValidAvailabilityWindow($startsAt, $endsAt);
+
+        $this->startsAt = $startsAt;
+        $this->endsAt = $endsAt;
+
+        return $this;
     }
 }

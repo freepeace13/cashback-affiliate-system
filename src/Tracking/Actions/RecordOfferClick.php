@@ -3,42 +3,42 @@
 namespace Cashback\Tracking\Actions;
 
 use Cashback\Contracts\EventBus;
-use Cashback\Tracking\Contracts\Actions\CreatesClickAction as CreatesClickContract;
+use Cashback\Offers\Repositories\OfferQueryRepository;
+use Cashback\Tracking\Contracts\Actions\RecordsOfferClickAction as RecordsOfferClickContract;
+use Cashback\Tracking\DTOs\Actions\RecordOfferClickData;
 use Cashback\Tracking\DTOs\ClickData;
-use Cashback\Tracking\DTOs\Actions\CreateClickData;
 use Cashback\Tracking\Entities\Click;
 use Cashback\Tracking\Events\ClickCreated;
-use Cashback\Tracking\Repositories\ClickWriteRepository;
+use Cashback\Tracking\Exceptions\OfferNotFoundForClick;
 use Cashback\Tracking\Mappers\ClickEntityMapper;
+use Cashback\Tracking\Repositories\ClickWriteRepository;
 
-/**
- * Creates a new tracking Click for a user and offer.
- *
- * This action:
- * - Constructs a Click entity from the provided CreateClickData.
- * - Delegates ID generation and persistence details to the ClickWriteRepository.
- * - Returns a lightweight ClickData projection for callers.
- */
-class CreateClick implements CreatesClickContract
+final class RecordOfferClick implements RecordsOfferClickContract
 {
     public function __construct(
         private ClickWriteRepository $clicksWriteRepository,
         private ClickEntityMapper $clickEntityMapper,
         private EventBus $eventBus,
+        private OfferQueryRepository $offerQueries,
     ) {}
 
-    public function create(CreateClickData $data): ClickData
+    public function record(RecordOfferClickData $data): ClickData
     {
+        $offer = $this->offerQueries->find($data->offerId);
+        if ($offer === null) {
+            throw new OfferNotFoundForClick("Offer {$data->offerId} not found for click recording");
+        }
+
         $clickRef = bin2hex(random_bytes(16));
         $click = new Click(
             id: '',
             clickRef: $clickRef,
-            userId: $data->userId !== '' ? $data->userId : null,
-            merchantId: (int) $data->merchantId,
-            offerId: $data->offerId !== '' ? (int) $data->offerId : null,
-            affiliateNetworkId: (int) $data->affiliateNetworkId,
+            userId: $data->userId,
+            merchantId: $offer->merchantId(),
+            offerId: $offer->id(),
+            affiliateNetworkId: $offer->affiliateNetworkId(),
             destinationUrl: $data->destinationUrl,
-            trackingUrl: $data->trackingUrl,
+            trackingUrl: $offer->trackingUrl(),
             clickedAt: new \DateTimeImmutable(),
         );
 
